@@ -1,0 +1,10 @@
+.alert.alert-info.alert-dismissible(role='alert')
+    button.close(type='button', data-dismiss='alert', aria-label='Close')
+        i.fa-close(aria-hidden='true')
+    .media
+        .media-left
+            a(href='#')
+                i.media-object.fa-info-circle
+        .media-body
+            h4.media-heading #{title}
+            | #{message}

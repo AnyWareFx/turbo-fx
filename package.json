@@ -1,0 +1,11 @@
+{
+  "name": "turbo-fx",
+  "version": "1.0.0",
+  "authors": [
+    "Dave Jackson <dave.jackson@anywarefx.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jade": "^1.10.0"
+  }
+}

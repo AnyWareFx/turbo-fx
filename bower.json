@@ -1,0 +1,25 @@
+{
+  "name": "turbo-fx",
+  "version": "1.0.0",
+  "description": "High productivity web app",
+  "authors": [
+    "Dave Jackson <dave.jackson@anywarefx.com>"
+  ],
+  "main": "main",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "marionette": "~2.4.0",
+    "backbone.picky": "~0.2.0",
+    "backbone.syphon": "~0.4.1",
+    "font-awesome": "~4.3.0"
+  }
+}
