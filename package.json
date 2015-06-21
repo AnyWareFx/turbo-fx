@@ -1,11 +1,28 @@
 {
+  "author": "Dave Jackson <dave.jackson@anywarefx.com>",
   "name": "turbo-fx",
   "version": "1.0.0",
-  "authors": [
-    "Dave Jackson <dave.jackson@anywarefx.com>"
+  "description": "Turbo-Fx: Backbone.Marionette/Bootstrap web apps - turbo charged",
+  "keywords": [
+    "Backbone",
+    "Marionette",
+    "Bootstrap",
+    "CoffeeScript",
+    "turbo-fx"
   ],
-  "license": "MIT",
+  "scripts": {
+    "postinstall": "webpack",
+    "build": "webpack"
+  },
   "dependencies": {
-    "jade": "^1.10.0"
-  }
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.9.2",
+    "cucumber": "^0.4.9",
+    "glob": "^5.0.10",
+    "webpack": "^1.9.10"
+  },
+  "license": "MIT"
 }
