@@ -1,10 +1,24 @@
-.alert.alert-info.alert-dismissible(role='alert')
-    button.close(type='button', data-dismiss='alert', aria-label='Close')
-        i.fa-close(aria-hidden='true')
-    .media
-        .media-left
-            a(href='#')
-                i.media-object.fa-info-circle
-        .media-body
-            h4.media-heading #{title}
-            | #{message}
+//- var options = {type: 'danger', title: 'Title', message: 'Message'}
+
+mixin alert(options)
+    - var icon = ''
+    case options.type
+        when 'success'
+            - icon = 'check-square'
+        when 'warning'
+            - icon = 'exclamation-triangle'
+        when 'danger'
+            - icon = 'exclamation-circle'
+        default
+            - icon = 'info-circle'
+
+    div(class='alert alert-dismissable alert-' + options.type, role='alert')
+        button.close(type='button', data-dismiss='alert', aria-label='Close')
+            i.fa.fa-close(aria-hidden='true')
+        .row.vertical-align-center
+            i(class='col-xs-2 fa fa-fw fa-3x fa-' + icon + ' text-' + options.type)
+            .col-xs-12
+                strong #{options.title}:
+                |  #{options.message}
+
++alert(options)

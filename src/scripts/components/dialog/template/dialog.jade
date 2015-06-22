@@ -1,0 +1,45 @@
+//- var options = {type: 'danger', header: 'Dialog Header', message: 'Message'}
+
+mixin dialog(options)
+    - var icon = ''
+    case options.type
+        when 'success'
+            - icon = 'check-square'
+        when 'warning'
+            - icon = 'exclamation-triangle'
+        when 'danger'
+            - icon = 'exclamation-circle'
+        default
+            - icon = 'info-circle'
+
+    #dialog.modal.fade(tabindex='-1', role='dialog', aria-labelledby='dialog-label')
+        .modal-dialog(role='document')
+            .modal-content
+                div(class="modal-header alert-" + options.type)
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        i.fa.fa-close(aria-hidden='true')
+                    h4#dialog-label.modal-title #{options.header}
+                .modal-body
+                    .row.vertical-align-center
+                        i(class='col-xs-2 fa fa-fw fa-3x fa-' + icon + ' text-' + options.type)
+                        .col-xs-10
+                            | #{options.message}
+                .modal-footer
+                    .text-right
+                        block buttons
+                            button.btn.btn-default(type='button', data-dismiss='modal') OK
+
+                            // Standard button
+                                button.btn.btn-default(type='button') Default
+                            // Provides extra visual weight and identifies the primary action in a set of buttons
+                                button.btn.btn-primary(type='button') Primary
+                            // Indicates a successful or positive action
+                                button.btn.btn-success(type='button') Success
+                            // Contextual button for informational alert messages
+                                button.btn.btn-info(type='button') Info
+                            // Indicates caution should be taken with this action
+                                button.btn.btn-warning(type='button') Warning
+                            // Indicates a dangerous or potentially negative action
+                                button.btn.btn-danger(type='button') Danger
+
++dialog(options)
