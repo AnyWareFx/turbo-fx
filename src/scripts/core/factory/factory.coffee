@@ -1,4 +1,4 @@
-#Backbone = require 'backbone'
+Backbone = require 'backbone'
 _ = require 'underscore'
 
 
@@ -51,7 +51,7 @@ class Factory
     template = @templates[name]
 
     unless template?
-      template = _.findWhere @specs, { name: name }
+      template = _.findWhere @specs, { componentName: name }
       @templates[name] = template if template?
 
     # TODO Log not found
@@ -72,36 +72,53 @@ class Factory
       @injectDependencies component, extension
       @setProperties component, extension
 
+    component
+
 
   injectDependencies: (component, template) ->
     if template.dependencies?
       for dependency in template.dependencies
         reference = @getComponent dependency.reference
-        component[dependency.name] = reference
+        @setProperty component, dependency.propertyName, reference
+
+    component
 
 
   setProperties: (component, template) ->
     if template.properties?
-      for property in template.properties
-        if property.value?
-          component[property.name] = property.value
+      if component instanceof Backbone.Model
+        component.set template.properties
+      else
+        _.extend component, template.properties
 
-        else if property.type is 'Array'
-          @setArrayProperty component, property
+    if template.details?
+      for detail in template.details
+        @setDetailProperty component, detail
+
+    component
 
 
-  setArrayProperty: (component, property) ->
+  setProperty: (component, name, value) ->
+    if component instanceof Backbone.Model
+      component.set name, value
+    else
+      component[name] = value
+
+
+  setDetailProperty: (component, property) ->
     if property.ClassName?
-      elements = []
-      ElementClass = @classes[property.ClassName]
+      details = []
+      DetailClass = @classes[property.ClassName]
 
-      for template in property.element
-        element = new ElementClass()
-        @injectDependencies element, template
-        @setProperties element, template
-        elements.push element
+      for template in property.items
+        detail = new DetailClass()
+        @injectDependencies detail, template
+        @setProperties detail, template
+        details.push detail
 
-      component[property.name] = elements
+      @setProperty component, property.propertyName, details
+
+    component
 
 
 module.exports = Factory

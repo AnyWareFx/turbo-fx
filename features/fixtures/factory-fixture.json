@@ -1,127 +1,63 @@
 [
   {
-    "name": "Dave",
+    "componentName": "Dave",
     "ClassName": "Person",
-    "properties": [
-      {
-        "name": "firstName",
-        "value": "Dave"
-      },
-      {
-        "name": "lastName",
-        "value": "Jackson"
-      },
-      {
-        "name": "contactPoints",
-        "type": "Array",
+    "properties": {
+      "firstName": "Dave",
+      "lastName": "Jackson"
+    },
+    "details": [{
+      "propertyName": "contactPoints",
+      "ClassName": "ContactPoint",
+      "items": [{
         "ClassName": "ContactPoint",
-        "element": [
-          {
-            "name": "HomeContactInfo",
-            "ClassName": "ContactPoint",
-            "dependencies": [
-              {
-                "name": "address",
-                "reference": "HomeAddress"
-              }
-            ],
-            "properties": [
-              {
-                "name": "type",
-                "value": "home"
-              },
-              {
-                "name": "email",
-                "value": "dave.jackson@ymail.com"
-              },
-              {
-                "name": "phone",
-                "value": "913.605.3636"
-              }
-            ]
-          },
-          {
-            "name": "WorkContactInfo",
-            "ClassName": "ContactPoint",
-            "dependencies": [
-              {
-                "name": "address",
-                "reference": "WorkAddress"
-              }
-            ],
-            "properties": [
-              {
-                "name": "type",
-                "value": "work"
-              },
-              {
-                "name": "email",
-                "value": "djackson@adparlor.com"
-              },
-              {
-                "name": "phone",
-                "value": "816.555.1212"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "HomeAddress",
+        "dependencies": [{
+          "propertyName": "address",
+          "reference": "HomeAddress"
+        }],
+        "properties": {
+          "type": "home",
+          "email": "dave.jackson@ymail.com",
+          "phone": "913.605.3636"
+        }
+      }, {
+        "ClassName": "ContactPoint",
+        "dependencies": [{
+          "propertyName": "address",
+          "reference": "WorkAddress"
+        }],
+        "properties": {
+          "type": "work",
+          "email": "djackson@adparlor.com",
+          "phone": "816.555.1212"
+        }
+      }]
+    }]
+  }, {
+    "componentName": "HomeAddress",
     "ClassName": "Address",
-    "properties": [
-      {
-        "name": "address1",
-        "value": "131 Allcutt Ave"
-      },
-      {
-        "name": "city",
-        "value": "Bonner Springs"
-      },
-      {
-        "name": "state",
-        "value": "KS"
-      },
-      {
-        "name": "zip",
-        "value": "66012"
-      }
-    ]
-  },
-  {
-    "name": "WorkAddress",
+    "properties": {
+      "address1": "131 Allcutt Ave",
+      "city": "Bonner Springs",
+      "state": "KS",
+      "zip": "66012"
+    }
+  }, {
+    "componentName": "WorkAddress",
     "ClassName": "Address",
-    "properties": [
-      {
-        "name": "address1",
-        "value": "4600 Madison Ave"
-      },
-      {
-        "name": "city",
-        "value": "Kansas City"
-      },
-      {
-        "name": "state",
-        "value": "MO"
-      },
-      {
-        "name": "zip",
-        "value": "64112"
-      }
-    ]
-  },
-  {
-    "name": "EmployeeDave",
+    "properties": {
+      "address1": "4600 Madison Ave",
+      "city": "Kansas City",
+      "state": "MO",
+      "zip": "64112"
+    }
+  }, {
+    "componentName": "EmployeeDave",
     "ClassName": "Employee",
     "extend": "Dave",
     "singleton": true,
-    "properties": [
-      {
-        "name": "startDate",
-        "value": "October 24th, 2015"
-      }
-    ]
+    "properties": {
+      "startDate": "October 24th, 2015"
+    }
   }
 ]
