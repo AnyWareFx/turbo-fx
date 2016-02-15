@@ -2,7 +2,7 @@ Command = require './command'
 
 
 class SetPropertyCommand extends Command
-  constructor: (attributes) =>
+  constructor: (attributes) ->
     super attributes
     {@property, @value} = attributes
     @oldValue = @target[@property]

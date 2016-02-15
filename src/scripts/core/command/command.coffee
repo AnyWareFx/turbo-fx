@@ -1,8 +1,8 @@
-_ = require '../../node_modules/underscore/underscore'
+_ = require 'underscore'
 
 
 class Command
-  constructor: (attributes) =>
+  constructor: (attributes) ->
     {@target, @canUndo} = _.defaults attributes, canUndo: true
 
   execute: ->
