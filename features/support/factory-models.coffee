@@ -1,4 +1,7 @@
-class Person
+Model = require '../../src/scripts/core/model/model'
+
+
+class Person extends Model
   @firstName
   @lastName
   @contactPoints = []
