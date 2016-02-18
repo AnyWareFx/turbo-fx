@@ -9,11 +9,13 @@ Model   = require './src/scripts/core/model/model'
 listener = (event) ->
   console.log event
 
-dave = new Model { firstName: 'Dave', lastName: 'Jackson' }
+dave = new Model firstName: 'Dave', lastName: 'Jackson'
 dave.addListener listener
 dave.set 'firstName', 'David'
 dave.removeListener listener
 dave.set 'firstName', 'Dave'
+dave.addListener listener
+dave.set firstName: 'David', lastName: 'Jackson', func: ->
 
 
 fixture = JSON.parse fs.readFileSync 'features/fixtures/factory-fixture.json', 'utf8'

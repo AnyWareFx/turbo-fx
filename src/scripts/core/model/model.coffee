@@ -3,7 +3,7 @@ _ = require 'underscore'
 
 class Model
 
-  constructor: (@attributes = {}) ->
+  constructor: (@properties = {}) ->
     @listeners = []
 
 
@@ -19,28 +19,39 @@ class Model
 
 
   get: (name) ->
-    @attributes[name]
+    @properties[name]
 
 
   set: (name, value) ->
-    if value != @attributes[name]
-      oldValue = @attributes[name]
-      @attributes[name] = value
+    if _.isString name
+      if value != @properties[name]
+        oldValue = @properties[name]
+        @properties[name] = value
 
-      _.each @listeners, (listener) ->
-        listener
-          type: 'change'
-          name: name
-          oldValue: oldValue
-          newValue: value
+        _.each @listeners, (listener) ->
+          listener
+            type: 'change'
+            name: name
+            oldValue: oldValue
+            newValue: value
+
+    else if arguments.length == 1
+      object = name
+
+      properties = _.omit object, _.functions object
+      names = _.keys properties
+
+      _.each names, (name) =>
+        @set name, properties[name]
+
 
 
   toJSON: ->
-    _.clone @attributes
+    _.clone @properties
 
 
   fromJSON: (json) ->
-    @attributes = JSON.parse json
+    @properties = JSON.parse json
 
 
 module.exports = Model
