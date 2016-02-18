@@ -3,6 +3,17 @@ fs      = require 'fs'
 
 models  = require './features/support/factory-models'
 Factory = require './src/scripts/core/factory/factory'
+Model   = require './src/scripts/core/model/model'
+
+
+listener = (event) ->
+  console.log event
+
+dave = new Model { firstName: 'Dave', lastName: 'Jackson' }
+dave.addListener listener
+dave.set 'firstName', 'David'
+dave.removeListener listener
+dave.set 'firstName', 'Dave'
 
 
 fixture = JSON.parse fs.readFileSync 'features/fixtures/factory-fixture.json', 'utf8'
