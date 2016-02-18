@@ -1,4 +1,3 @@
-Backbone = require 'backbone'
 _ = require 'underscore'
 
 
@@ -11,7 +10,7 @@ class Delegate
     @singletons = {}
 
 
-  get: (name) ->
+  getComponent: (name) ->
     component = @singletons[name]
 
     unless component?
@@ -68,7 +67,7 @@ class Delegate
   injectDependencies: (component, template) ->
     if template.dependencies?
       for dependency in template.dependencies
-        reference = @get dependency.reference
+        reference = @getComponent dependency.reference
         @setProperty component, dependency.propertyName, reference
 
     component
@@ -76,7 +75,7 @@ class Delegate
 
   setProperties: (component, template) ->
     if template.properties?
-      if component instanceof Backbone.Model
+      if component.set?
         component.set template.properties
       else
         _.extend component, template.properties
@@ -89,7 +88,7 @@ class Delegate
 
 
   setProperty: (component, name, value) ->
-    if component instanceof Backbone.Model
+    if component.set?
       component.set name, value
     else
       component[name] = value
@@ -121,7 +120,7 @@ class Factory
     instance = new Delegate(classes, specs) unless instance?
 
   @get: (name) ->
-    instance.get name
+    instance.getComponent name
 
 
 
