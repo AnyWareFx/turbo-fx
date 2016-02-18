@@ -2,26 +2,16 @@ Backbone = require 'backbone'
 _ = require 'underscore'
 
 
-class Factory
-  @instance = new Factory()
+class Delegate
 
-  constructor: ->
-    @specs = []
-    @classes = {}
+  constructor: (classes, specs) ->
+    @specs = specs
+    @classes = classes
     @templates = {}
     @singletons = {}
 
 
-  @getInstance: ->
-    @instance
-
-
-  initialize: (classes, specs) ->
-    @classes = classes if _.isEmpty @classes and _.isObject classes
-    @specs = specs if _.isEmpty @specs and _.isArray specs
-
-
-  getComponent: (name) ->
+  get: (name) ->
     component = @singletons[name]
 
     unless component?
@@ -78,7 +68,7 @@ class Factory
   injectDependencies: (component, template) ->
     if template.dependencies?
       for dependency in template.dependencies
-        reference = @getComponent dependency.reference
+        reference = @get dependency.reference
         @setProperty component, dependency.propertyName, reference
 
     component
@@ -104,6 +94,8 @@ class Factory
     else
       component[name] = value
 
+    component
+
 
   setDetailProperty: (component, property) ->
     if property.ClassName?
@@ -119,6 +111,19 @@ class Factory
       @setProperty component, property.propertyName, details
 
     component
+
+
+
+class Factory
+  instance = null
+
+  @initialize: (classes, specs) ->
+    instance = new Delegate(classes, specs) unless instance?
+
+  @get: (name) ->
+    instance.get name
+
+
 
 
 module.exports = Factory
