@@ -3,11 +3,11 @@ _ = require 'underscore'
 
 class Delegate
 
-  constructor: (classes, specs) ->
-    @specs = specs
+  constructor: (classes, templates) ->
     @classes = classes
-    @templates = {}
+    @templates = templates
     @singletons = {}
+    @templateCache = {}
 
 
   getComponent: (name) ->
@@ -27,8 +27,8 @@ class Delegate
           if template.singleton?
             @singletons[name] = component
 
-#        else
-          # TODO Log 'not found or missing class name'
+          # else
+            # TODO Log 'not found or missing class name'
 
       catch error
         # TODO Log error
@@ -37,11 +37,11 @@ class Delegate
 
 
   getTemplate: (name) ->
-    template = @templates[name]
+    template = @templateCache[name]
 
     unless template?
-      template = _.findWhere @specs, { componentName: name }
-      @templates[name] = template if template?
+      template = _.findWhere @templates, { componentName: name }
+      @templateCache[name] = template if template?
 
     # TODO Log not found
 
@@ -116,8 +116,8 @@ class Delegate
 class Factory
   instance = null
 
-  @initialize: (classes, specs) ->
-    instance = new Delegate(classes, specs) unless instance?
+  @initialize: (classes, templates) ->
+    instance = new Delegate(classes, templates) unless instance?
 
   @get: (name) ->
     instance.getComponent name
