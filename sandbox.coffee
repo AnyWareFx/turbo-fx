@@ -1,4 +1,4 @@
-_       = require 'underscore'
+_ = require 'underscore'
 
 logEvent = (event) ->
   console.log event
@@ -15,16 +15,16 @@ Model   = require './src/scripts/core/model/model'
 dave = new Model firstName: 'Dave', lastName: 'Jackson'
 
 
-dave.addListener 'changed', logEvent
+dave.on 'changed', logEvent
 dave.set 'firstName', 'David'
 
 
-dave.removeListener 'changed', logEvent
+dave.off 'changed', logEvent
 dave.set 'firstName', 'Dave'
 
 
-dave.addListener 'changed', logEvent
-dave.addListener 'changing', cancelLastName
+dave.on 'changed', logEvent
+dave.on 'changing', cancelLastName
 dave.set firstName: 'David', lastName: 'Jackson II', func: ->
 
 

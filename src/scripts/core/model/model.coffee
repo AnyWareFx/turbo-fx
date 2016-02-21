@@ -1,25 +1,18 @@
-_ = require 'underscore'
+_            = require 'underscore'
+EventEmitter = require '../event/emitter'
 
 
-class Model
+class Model extends EventEmitter
+  @Events:
+    CHANGING: 'changing'
+    CHANGED:  'changed'
+
 
   constructor: (@properties = {}) ->
+    super()
     @listeners =
       changing: []
       changed:  []
-
-
-  addListener: (type, listener) ->
-    if _.has(@listeners, type) and _.isFunction listener
-      alreadyListening = _.contains @listeners[type], listener
-      @listeners[type].push listener if not alreadyListening
-
-
-  removeListener: (type, listener) ->
-    if _.has(@listeners, type) and _.isFunction listener
-      index = _.indexOf @listeners[type], listener
-      found = index > -1
-      @listeners[type].splice index, 1 if found
 
 
   get: (name) ->
@@ -41,7 +34,7 @@ class Model
 
       cancelled = _.any @listeners.changing, (listener) ->
         listener
-          type: 'changing'
+          type: Model.Events.CHANGING
           name: name
           oldValue: oldValue
           newValue: value
@@ -51,14 +44,22 @@ class Model
 
         _.each @listeners.changed, (listener) ->
           listener
-            type: 'changed'
+            type: Model.Events.CHANGED
             name: name
             oldValue: oldValue
             newValue: value
 
 
+  clone: ->
+    new @constructor _.clone @properties
+
+
+  copyFrom: (other) ->
+    @properties = _.clone other.properties
+
+
   toJSON: ->
-    _.clone @properties
+    JSON.stringify _.clone @properties
 
 
   fromJSON: (json) ->
