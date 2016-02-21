@@ -8,12 +8,18 @@ class SetPropertyCommand extends Command
     @oldValue = @target[@property]
 
 
-  execute: =>
-    @target[@property] = @value
+  execute: ->
+    if @target.set?
+      @target.set @property, @value
+    else
+      @target[@property] = @value
 
 
-  undo: =>
-    @target[@property] = @oldValue
+  undo: ->
+    if @target.set?
+      @target.set @property, @oldValue
+    else
+      @target[@property] = @oldValue
 
 
 module.exports = SetPropertyCommand

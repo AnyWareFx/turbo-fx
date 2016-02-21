@@ -9,7 +9,7 @@ class Command
 
   undo: ->
 
-  redo: =>
+  redo: ->
     @execute()
 
 

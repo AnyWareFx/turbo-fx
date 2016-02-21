@@ -9,20 +9,20 @@ class MacroCommand extends Command
     @commands = []
 
 
-  add: (command) =>
+  add: (command) ->
     @commands.push command if command instanceof Command
 
 
-  execute: =>
+  execute: ->
     _.each @commands, (command) =>
       @context.execute command
 
 
-  undo: =>
+  undo: ->
     @context.rewind()
 
 
-  redo: =>
+  redo: ->
     @context.replay()
 
 

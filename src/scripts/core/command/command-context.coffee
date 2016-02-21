@@ -7,15 +7,15 @@ class CommandContext
     @redoStack = []
 
 
-  canUndo: =>
+  canUndo: ->
     @undoStack.length > 0
 
 
-  canRedo: =>
+  canRedo: ->
     @redoStack.length > 0
 
 
-  execute: (command) =>
+  execute: (command) ->
     if command instanceof Command
       command.execute()
       if command.canUndo
@@ -23,31 +23,31 @@ class CommandContext
         @redoStack.length = 0
 
 
-  undo: =>
+  undo: ->
     if @canUndo()
       command = @undoStack.pop()
       command.undo()
       @redoStack.push(command)
 
 
-  redo: =>
+  redo: ->
     if @canRedo()
       command = @redoStack.pop()
       command.redo()
       @undoStack.push(command)
 
 
-  rewind: () =>   # interval = 0
-    # TODO if interval > 0 and window - setInterval or setTimeout
+# TODO if interval > 0 and window - setInterval or setTimeout
+  rewind: () ->   # interval = 0
     @undo() while @canUndo()
 
 
-  replay: () =>   # interval = 0
-    # TODO if interval > 0 and window - setInterval or setTimeout
+# TODO if interval > 0 and window - setInterval or setTimeout
+  replay: () ->   # interval = 0
     @redo() while @canRedo()
 
 
-  reset: =>
+  reset: ->
     @undoStack.length = 0
     @redoStack.length = 0
 
