@@ -51,7 +51,7 @@ class Collection extends EventEmitter
         model: model
 
       unless cancelled
-        model = @models.splice index, 1
+        model = @models.splice(index, 1)[0]
         model.unobserve Model.Events.CHANGING, @forward
         model.unobserve Model.Events.CHANGED,  @forward
 

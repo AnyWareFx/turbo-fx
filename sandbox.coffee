@@ -35,6 +35,8 @@ context.execute command
 #Dave.observe 'changed', logEvent
 #Dave.observe 'changing', cancelLastName
 
+people.remove Dave
+
 Dave.set firstName: 'David', lastName: 'Jackson II', func: ->
 context.undo()
 
