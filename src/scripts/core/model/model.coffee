@@ -46,6 +46,7 @@ class Model extends EventEmitter
           name: name
           oldValue: oldValue
           newValue: value
+    @
 
 
   clone: ->
@@ -54,6 +55,7 @@ class Model extends EventEmitter
 
   copyFrom: (other) ->
     @properties = _.clone other.properties
+    @
 
 
   toJSON: ->
@@ -62,6 +64,7 @@ class Model extends EventEmitter
 
   fromJSON: (json) ->
     @properties = JSON.parse json
+    @
 
 
 module.exports = Model
