@@ -4,7 +4,7 @@ EventEmitter = require '../event/emitter'
 
 
 class Collection extends EventEmitter
-  @Events:
+  @Events = _.extend Model.Events,
     ADDING:   'adding'
     ADDED:    'added'
     REMOVING: 'removing'
