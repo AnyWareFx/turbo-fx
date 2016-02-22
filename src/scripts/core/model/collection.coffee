@@ -11,9 +11,9 @@ class Collection extends EventEmitter
     REMOVED:  'removed'
 
 
-  constructor: (options) ->
+  constructor: (options = {}) ->
     super options
-    {@models, @ModelClass} = _.defaults models: [], ModelClass: Model
+    {@models, @ModelClass} = _.defaults options, {models: [], ModelClass: Model}
     @observers =
       adding:   []
       added:    []

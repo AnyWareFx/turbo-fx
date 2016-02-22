@@ -5,7 +5,10 @@ class SetPropertyCommand extends Command
   constructor: (attributes) ->
     super attributes
     {@property, @value} = attributes
-    @oldValue = @target[@property]
+    if @target.get?
+      @oldValue = @target.get @property
+    else
+      @oldValue = @target[@property]
 
 
   execute: ->
