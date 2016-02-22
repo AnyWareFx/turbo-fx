@@ -2,19 +2,25 @@ _ = require 'underscore'
 
 
 Mixin =
-  on: (type, listener) ->
-    if _.has(@listeners, type) and _.isFunction listener
-      alreadyListening = _.contains @listeners[type], listener
-      @listeners[type].push listener if not alreadyListening
+  observe: (type, observer) ->
+    if _.has(@observers, type) and _.isFunction observer
+      alreadyListening = _.contains @observers[type], observer
+      @observers[type].push observer if not alreadyListening
     @
 
 
-  off: (type, listener) ->
-    if _.has(@listeners, type) and _.isFunction listener
-      index = _.indexOf @listeners[type], listener
+  unobserve: (type, observer) ->
+    if _.has(@observers, type) and _.isFunction observer
+      index = _.indexOf @observers[type], observer
       found = index > -1
-      @listeners[type].splice index, 1 if found
+      @observers[type].splice index, 1 if found
     @
+
+
+  emit: (event) ->
+    _.any @observers[event.type], (observe) ->
+      observe event
+
 
 
 # TODO Mixin into Emitter
@@ -23,19 +29,24 @@ class Emitter
   constructor: ->
 
 
-  on: (type, listener) ->
-    if _.has(@listeners, type) and _.isFunction listener
-      alreadyListening = _.contains @listeners[type], listener
-      @listeners[type].push listener if not alreadyListening
+  observe: (type, observer) ->
+    if _.has(@observers, type) and _.isFunction observer
+      alreadyListening = _.contains @observers[type], observer
+      @observers[type].push observer if not alreadyListening
     @
 
 
-  off: (type, listener) ->
-    if _.has(@listeners, type) and _.isFunction listener
-      index = _.indexOf @listeners[type], listener
+  unobserve: (type, observer) ->
+    if _.has(@observers, type) and _.isFunction observer
+      index = _.indexOf @observers[type], observer
       found = index > -1
-      @listeners[type].splice index, 1 if found
+      @observers[type].splice index, 1 if found
     @
+
+
+  emit: (event) ->
+    _.any @observers[event.type], (observe) ->
+      observe event
 
 
 module.exports = Emitter

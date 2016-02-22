@@ -15,16 +15,16 @@ Model   = require './src/scripts/core/model/model'
 dave = new Model firstName: 'Dave', lastName: 'Jackson'
 
 
-dave.on 'changed', logEvent
+dave.observe 'changed', logEvent
 dave.set 'firstName', 'David'
 
 
-dave.off 'changed', logEvent
+dave.unobserve 'changed', logEvent
 dave.set 'firstName', 'Dave'
 
 
-dave.on 'changed', logEvent
-dave.on 'changing', cancelLastName
+dave.observe 'changed', logEvent
+dave.observe 'changing', cancelLastName
 dave.set firstName: 'David', lastName: 'Jackson II', func: ->
 
 

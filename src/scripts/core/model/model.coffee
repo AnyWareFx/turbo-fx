@@ -10,7 +10,7 @@ class Model extends EventEmitter
 
   constructor: (@properties = {}) ->
     super()
-    @listeners =
+    @observers =
       changing: []
       changed:  []
 
@@ -32,22 +32,20 @@ class Model extends EventEmitter
     else if _.isString(name) and value != @properties[name]
       oldValue = @properties[name]
 
-      cancelled = _.any @listeners.changing, (listener) ->
-        listener
-          type: Model.Events.CHANGING
-          name: name
-          oldValue: oldValue
-          newValue: value
+      cancelled = @emit
+        type: Model.Events.CHANGING
+        name: name
+        oldValue: oldValue
+        newValue: value
 
       unless cancelled
         @properties[name] = value
 
-        _.each @listeners.changed, (listener) ->
-          listener
-            type: Model.Events.CHANGED
-            name: name
-            oldValue: oldValue
-            newValue: value
+        @emit
+          type: Model.Events.CHANGED
+          name: name
+          oldValue: oldValue
+          newValue: value
 
 
   clone: ->
