@@ -10,22 +10,30 @@ cancelLastName = (event) ->
 
 ########################
 
-Model   = require './src/scripts/core/model/model'
+Model      = require './src/scripts/core/model/model'
+Collection = require './src/scripts/core/model/collection'
 
-dave = new Model firstName: 'Dave', lastName: 'Jackson'
+Dave = new Model firstName: 'Dave', lastName: 'Jackson'
+Rosemary = new Model firstName: 'Rosemary', lastName: 'Jackson'
+
+people = new Collection
+people.observe 'added', logEvent
+people.observe 'removed', logEvent
+people.observe 'changed', logEvent
+people.add Dave
+people.add Rosemary
+
+#Dave.observe 'changed', logEvent
+Dave.set 'firstName', 'David'
 
 
-dave.observe 'changed', logEvent
-dave.set 'firstName', 'David'
+#Dave.unobserve 'changed', logEvent
+#Dave.set 'firstName', 'Dave'
 
 
-dave.unobserve 'changed', logEvent
-dave.set 'firstName', 'Dave'
-
-
-dave.observe 'changed', logEvent
-dave.observe 'changing', cancelLastName
-dave.set firstName: 'David', lastName: 'Jackson II', func: ->
+#Dave.observe 'changed', logEvent
+#Dave.observe 'changing', cancelLastName
+Dave.set firstName: 'David', lastName: 'Jackson II', func: ->
 
 
 ########################
@@ -47,5 +55,5 @@ console.log dave.get 'firstName'
 console.log _.findWhere dave.get 'contactPoints', { type: 'home' }
 console.log _.findWhere dave.get 'contactPoints', { type: 'work' }
 
-employeeDave = Factory.get 'EmployeeDave'
-console.log employeeDave.get 'startDate'
+employee = Factory.get 'EmployeeDave'
+console.log employee.get 'startDate'
