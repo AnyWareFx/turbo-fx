@@ -2,29 +2,26 @@ Model = require '../../src/scripts/core/model/model'
 
 
 class Person extends Model
-  @firstName
-  @lastName
-  @contactPoints = []
-
-
-class Address
-  @address1
-  @address2
-  @city
-  @state
-  @zip
-
-
-class ContactPoint
-  @type
-  @address
-  @phone
-  @email
 
 
 class Employee extends Person
-  @startDate
-  @endDate
+
+
+class Address
+  constructor: ->
+    @address1
+    @address2
+    @city
+    @state
+    @zip
+
+
+class ContactPoint
+  constructor: ->
+    @type
+    @address
+    @phone
+    @email
 
 
 module.exports = ->
