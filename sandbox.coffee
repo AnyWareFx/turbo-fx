@@ -17,8 +17,12 @@ context = new Context
 
 Dave = new Model firstName: 'Dave', lastName: 'Jackson'
 Rosemary = new Model firstName: 'Rosemary', lastName: 'Jackson'
+Mariah = new Model firstName: 'Mariah', lastName: 'Seifert'
+Manitou = new Model firstName: 'Manitou'
 
+console.log 'Model pick'
 console.log Dave.pick 'firstName'
+console.log '\n'
 
 people = new Collection
 people.observe 'added', logEvent
@@ -26,6 +30,28 @@ people.observe 'removed', logEvent
 people.observe 'changed', logEvent
 people.add Dave
 people.add Rosemary
+people.add Mariah
+people.add Manitou
+
+console.log 'Collection pluck'
+console.log people.pluck 'firstName'
+console.log '\n'
+
+console.log 'Collection find'
+console.log people.find (person) -> 'Jackson' == person.get 'lastName'
+console.log '\n'
+
+console.log 'Collection where lastName: ' + 'Jackson'
+console.log people.where lastName: 'Jackson'
+console.log '\n'
+
+console.log 'Collection where first+last'
+console.log people.where firstName: 'Rosemary', lastName: 'Jackson'
+console.log '\n'
+
+console.log 'Collection findWhere'
+console.log people.findWhere lastName: 'Jackson'
+console.log '\n'
 
 command = new SetProperty target: Dave, property: 'firstName', value: 'David'
 context.execute command

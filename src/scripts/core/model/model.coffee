@@ -58,6 +58,10 @@ class Model extends EventEmitter
     @
 
 
+  properties: ->
+    _.clone @properties
+
+
   keys: ->
     _.keys @properties
 

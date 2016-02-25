@@ -43,6 +43,103 @@ class Collection extends EventEmitter
     @
 
 
+  each: (iteratee) ->
+    _.each @models, iteratee
+
+
+  pluck: (propertyName) ->
+    values = []
+    _.each @models, (model) =>
+      values.push model.get propertyName
+    values
+
+
+  map: (iteratee) ->
+    _.map @models, iteratee
+
+  collect: (iteratee) ->
+    @map iteratee
+
+
+  reduce: (iteratee, memo) ->
+    _.reduce @models, iteratee, memo
+
+  inject: (iteratee, memo) ->
+    @reduce iteratee, memo
+
+
+  find: (predicate) ->
+    _.find @models, predicate
+
+  detect: (predicate) ->
+    @find predicate
+
+
+  where: (properties) ->
+    matches = []
+    _.each @models, (model) =>
+      matches.push model if _.isMatch model.properties, properties
+    matches
+
+  findWhere: (properties) ->
+    _.find @models, (model) ->
+      _.isMatch model.properties, properties
+
+
+  filter: (predicate) ->
+    _.filter @models, predicate
+
+  select: (predicate) ->
+    @filter predicate
+
+
+  reject: (predicate) ->
+    _.reject @models, predicate
+
+
+  every: (predicate) ->
+    _.every @models, predicate
+
+  all: (predicate) ->
+    @every predicate
+
+
+  some: (predicate) ->
+    _.some @models, predicate
+
+  any: (predicate) ->
+    @some predicate
+
+
+  contains: (value) ->
+    _.contains @models, value
+
+  includes: (value) ->
+    @contains value
+
+
+  max: (iteratee) ->
+    _.max @models, iteratee
+
+  min: (iteratee) ->
+    _.min @models, iteratee
+
+
+  sortBy: (iteratee) ->
+    _.sortBy @models, iteratee
+
+  groupBy: (iteratee) ->
+    _.groupBy @models, iteratee
+
+
+  size: ->
+    _.size @models
+
+
+  toArray: ->
+    @models
+
+
   remove: (model) ->
     index = _.indexOf @models, model
     if index > -1
