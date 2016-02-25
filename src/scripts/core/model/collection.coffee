@@ -4,16 +4,16 @@ EventEmitter = require '../event/emitter'
 
 
 class Collection extends EventEmitter
-  @Events = _.extend Model.Events,
+  @Events = _.extend {}, Model.Events,
     ADDING:   'adding'
     ADDED:    'added'
     REMOVING: 'removing'
     REMOVED:  'removed'
 
 
-  constructor: (options = {}) ->
-    super options
-    {@models, @ModelClass} = _.defaults options, {models: [], ModelClass: Model}
+  constructor: (params = {}) ->
+    super params
+    {@models, @ModelClass} = _.defaults params, {models: [], ModelClass: Model}
     @observers =
       adding:   []
       added:    []

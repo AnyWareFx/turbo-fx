@@ -3,9 +3,9 @@ mixin = require './emitter-mixin'
 
 
 class Emitter
-  constructor: ->
-    _.extend @, mixin
 
 
-module.exports =
-  Emitter
+_.extend Emitter.prototype, mixin
+
+
+module.exports = Emitter

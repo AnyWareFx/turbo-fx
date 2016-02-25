@@ -2,8 +2,8 @@ _ = require 'underscore'
 
 
 class Command
-  constructor: (attributes) ->
-    {@target, @canUndo} = _.defaults attributes, canUndo: true
+  constructor: (params = {}) ->
+    {@target, @canUndo} = _.defaults params, canUndo: true
 
   execute: ->
 

@@ -2,6 +2,15 @@ _            = require 'underscore'
 EventEmitter = require '../event/emitter'
 
 
+_.mixin
+  isScalar: (param) ->
+    _.isNumber(param)  or
+    _.isString(param)  or
+    _.isDate(param)    or
+    _.isBoolean(param)
+
+
+
 class Model extends EventEmitter
   @Events:
     CHANGING: 'changing'
@@ -29,7 +38,7 @@ class Model extends EventEmitter
       _.each names, (name) =>
         @set name, properties[name]
 
-    else if _.isString(name) and value != @properties[name]
+    else if _.isString(name) and _.isScalar(value) and value != @properties[name]
       oldValue = @properties[name]
 
       cancelled = @emit
@@ -49,12 +58,28 @@ class Model extends EventEmitter
     @
 
 
+  keys: ->
+    _.keys @properties
+
+
+  values: ->
+    _.values @properties
+
+
+  pick: (keys) ->
+    _.pick @properties, keys
+
+
+  omit: (keys) ->
+    _.omit @properties, keys
+
+
   clone: ->
     new @constructor _.clone @properties
 
 
   copyFrom: (other) ->
-    @properties = _.clone other.properties
+    @set _.clone other.properties if other?.properties?
     @
 
 
@@ -63,7 +88,7 @@ class Model extends EventEmitter
 
 
   fromJSON: (json) ->
-    @properties = JSON.parse json
+    @set JSON.parse json if _.isString json
     @
 
 

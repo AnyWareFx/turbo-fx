@@ -18,6 +18,8 @@ context = new Context
 Dave = new Model firstName: 'Dave', lastName: 'Jackson'
 Rosemary = new Model firstName: 'Rosemary', lastName: 'Jackson'
 
+console.log Dave.pick 'firstName'
+
 people = new Collection
 people.observe 'added', logEvent
 people.observe 'removed', logEvent

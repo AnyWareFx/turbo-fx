@@ -19,5 +19,11 @@ module.exports =
 
 
   emit: (event) ->
-    _.any @observers[event.type], (observe) ->
-      observe event
+    if event?.type? and _.has @observers, event.type
+      if event.type.toLowerCase().endsWith 'ing'
+        return _.any @observers[event.type], (observe) ->
+          observe event
+      else
+        _.each @observers[event.type], (observe) ->
+          observe event
+    @
