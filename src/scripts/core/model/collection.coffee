@@ -49,7 +49,7 @@ class Collection extends EventEmitter
 
   pluck: (propertyName) ->
     values = []
-    _.each @models, (model) =>
+    @each (model) =>
       values.push model.get propertyName
     values
 
@@ -77,12 +77,12 @@ class Collection extends EventEmitter
 
   where: (properties) ->
     matches = []
-    _.each @models, (model) =>
+    @each (model) =>
       matches.push model if _.isMatch model.properties, properties
     matches
 
   findWhere: (properties) ->
-    _.find @models, (model) ->
+    @find (model) ->
       _.isMatch model.properties, properties
 
 
