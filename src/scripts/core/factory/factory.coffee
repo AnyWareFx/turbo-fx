@@ -3,9 +3,8 @@ _ = require 'underscore'
 
 class Delegate
 
-  constructor: (classes, templates) ->
-    @classes = classes
-    @templates = templates
+  constructor: (params = {}) ->
+    {@classes, @templates} = _.defaults params, classes: {}, templates: []
     @singletons = {}
     @templateCache = {}
 

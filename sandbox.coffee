@@ -77,7 +77,7 @@ Factory = require './src/scripts/core/factory/factory'
 
 fixture = JSON.parse fs.readFileSync 'features/fixtures/factory-fixture.json', 'utf8'
 
-Factory.initialize models(), fixture
+Factory.initialize classes: models(), templates: fixture
 
 
 home = Factory.get 'HomeAddress'
