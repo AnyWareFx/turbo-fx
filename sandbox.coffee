@@ -8,12 +8,21 @@ logEvent = (event) ->
 
 ########################
 
-Model       = require './src/scripts/core/model/model'
-Collection  = require './src/scripts/core/model/collection'
-Context     = require './src/scripts/core/command/command-context'
-SetProperty = require './src/scripts/core/command/set-property-command'
+# TODO Determine why this doesn't work here, but it does in Terminal
+#{ Model, Collection } = require './src/scripts/core/model'
 
-context = new Context
+Model      = require './src/scripts/core/model/model'
+Collection = require './src/scripts/core/model/collection'
+
+
+# TODO Determine why this doesn't work here, but it does in Terminal
+#{ CommandContext, SetPropertyCommand } = require './src/scripts/core/command'
+
+CommandContext     = require './src/scripts/core/command/command-context'
+SetPropertyCommand = require './src/scripts/core/command/set-property-command'
+
+
+context = new CommandContext
 
 Dave = new Model firstName: 'Dave', lastName: 'Jackson'
 Rosemary = new Model firstName: 'Rosemary', lastName: 'Jackson'
@@ -53,7 +62,7 @@ console.log 'Collection findWhere'
 console.log people.findWhere lastName: 'Jackson'
 console.log '\n'
 
-command = new SetProperty target: Dave, property: 'firstName', value: 'David'
+command = new SetPropertyCommand target: Dave, property: 'firstName', value: 'David'
 context.execute command
 
 #Dave.observe 'changed', logEvent

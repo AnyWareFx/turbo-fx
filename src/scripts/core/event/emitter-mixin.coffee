@@ -26,4 +26,3 @@ module.exports =
       else
         _.each @observers[event.type], (observe) ->
           observe event
-    @

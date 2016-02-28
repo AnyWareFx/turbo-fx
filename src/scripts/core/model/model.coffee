@@ -17,8 +17,10 @@ class Model extends EventEmitter
     CHANGED:  'changed'
 
 
-  constructor: (@properties = {}) ->
+  constructor: (properties = {}) ->
     super()
+    @properties = {}
+    @set properties
     @observers =
       changing: []
       changed:  []

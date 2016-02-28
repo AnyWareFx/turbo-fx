@@ -118,6 +118,10 @@ class Collection extends EventEmitter
     @contains value
 
 
+  partition: (predicate) ->
+    _.partition @models, predicate
+
+
   max: (iteratee) ->
     _.max @models, iteratee
 
@@ -131,13 +135,19 @@ class Collection extends EventEmitter
   groupBy: (iteratee) ->
     _.groupBy @models, iteratee
 
+  indexBy: (iteratee) ->
+    _.indexBy @models, iteratee
+
+  countBy: (iteratee) ->
+    _.countBy @models, iteratee
+
 
   size: ->
     _.size @models
 
 
   toArray: ->
-    @models
+    _.toArray @models
 
 
   remove: (model) ->
