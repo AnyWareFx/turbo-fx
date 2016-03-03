@@ -20,11 +20,29 @@ class Model extends EventEmitter
   constructor: (properties = {}) ->
     super()
     @properties = {}
-    @set properties
+    @set properties = _.defaults {}, properties, { locked: false, frozen: false }
     @observers =
       changing: []
       changed:  []
 
+
+  _nameAllowed: (name) ->
+    _.isString(name) and
+    (
+      not @properties.locked or
+      @has name
+    )
+
+  _valueAllowed: (name, value) ->
+    (
+      name in ['frozen', 'locked'] and
+      _.isBoolean(value)
+    ) or
+    (
+      not @properties.frozen and
+      _.isScalar(value) and
+      value != @properties[name]
+    )
 
   get: (name) ->
     @properties[name]
@@ -40,7 +58,7 @@ class Model extends EventEmitter
       _.each names, (name) =>
         @set name, properties[name]
 
-    else if _.isString(name) and _.isScalar(value) and value != @properties[name]
+    else if @_nameAllowed(name) and @_valueAllowed(name, value)
       oldValue = @properties[name]
 
       cancelled = @emit
@@ -58,6 +76,10 @@ class Model extends EventEmitter
           oldValue: oldValue
           newValue: value
     @
+
+
+  has: (key) ->
+    _.has @properties, key
 
 
   keys: ->
