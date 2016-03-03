@@ -56,14 +56,6 @@ module.exports = ->
     @model.set property, 'value'
 
 
-  @Then 'the "$property" property value will equal "$value"', (property, value) ->
-    expect(@model.get(property)).to.equal value
-
-
-  @Then 'the "$property" property value will not equal "$value"', (property, value) ->
-    expect(@model.get(property)).to.not.equal value
-
-
   @Then 'the model will have the "$property" property', (property) ->
     expect(@model.has(property)).to.be.true
 
@@ -78,13 +70,3 @@ module.exports = ->
 
   @Then 'I will not receive the "$type" event', (type) ->
     expect(@observed).to.equal null
-
-
-  @AfterAll = ->
-    console.log 'AfterAll'
-    @model    = null
-    @person   = null
-    @locked   = null
-    @frozen   = null
-    @unlocked = null
-    @unfrozen = null

@@ -2,12 +2,13 @@
   "author": "Dave Jackson <dave.jackson@anywarefx.com>",
   "name": "turbo-fx",
   "version": "1.0.0",
-  "description": "Turbo-Fx: Backbone.Marionette/Bootstrap web apps - turbo charged",
+  "description": "Turbo-Fx: Isomorphic CoffeeScript Web Apps",
   "keywords": [
-    "Backbone",
-    "Marionette",
-    "Bootstrap",
-    "CoffeeScript",
+    "Isomorphic",   "isomorphic",
+    "CoffeeScript", "coffeescript",
+    "Bootstrap",    "bootstrap",
+    "web",
+    "app",
     "turbo-fx"
   ],
   "scripts": {
@@ -15,7 +16,6 @@
     "build": "webpack"
   },
   "dependencies": {
-    "backbone": "^1.2.3",
     "jquery": "^2.2.0",
     "underscore": "^1.8.3"
   },
