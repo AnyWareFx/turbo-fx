@@ -8,7 +8,7 @@ class Message extends Model
     defaults =
       channel: '*'
       topic: '*'
-      message: '*'
+      kind: '*'
       payload: ''
 
     super _.defaults {}, properties, defaults

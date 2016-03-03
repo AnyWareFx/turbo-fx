@@ -1,4 +1,4 @@
-Feature: Frozen Model Feature
+Feature: Message Bus Feature
   As a Turbo-Fx user
   I can Publish and Subscribe to Messages
   So that I can decouple classes
@@ -15,42 +15,42 @@ Feature: Frozen Model Feature
   Scenario: Bus Subscription
     Given I have a Message Bus
     When  I subscribe to "*" channel, "*" topic and "*" messages
-    And   I publish a "data" channel, "person" topic and "created" message
-    And   I publish a "notification" channel, "person" topic and "added" message
-    And   I publish a "view" channel, "form" topic and "cancelled" message
-    And   I publish a "view" channel, "template" topic and "loaded" message
-    And   I publish a "view" channel, "template" topic and "rendered" message
+    And   I publish a "data" channel, "person" topic "created" message
+    And   I publish a "notification" channel, "person" topic "added" message
+    And   I publish a "view" channel, "form" topic "cancelled" message
+    And   I publish a "view" channel, "template" topic "loaded" message
+    And   I publish a "view" channel, "template" topic "rendered" message
     Then  I will receive all bus messages
 
 
   Scenario: Channel Subscription
     Given I have a Message Bus
     When  I subscribe to "view" channel, "*" topic and "*" messages
-    And   I publish a "data" channel, "person" topic and "created" message
-    And   I publish a "notification" channel, "person" topic and "added" message
-    And   I publish a "view" channel, "form" topic and "cancelled" message
-    And   I publish a "view" channel, "template" topic and "loaded" message
-    And   I publish a "view" channel, "template" topic and "rendered" message
+    And   I publish a "data" channel, "person" topic "created" message
+    And   I publish a "notification" channel, "person" topic "added" message
+    And   I publish a "view" channel, "form" topic "cancelled" message
+    And   I publish a "view" channel, "template" topic "loaded" message
+    And   I publish a "view" channel, "template" topic "rendered" message
     Then  I will receive all "view" channel messages
 
 
   Scenario: Topic Subscription
     Given I have a Message Bus
     When  I subscribe to "view" channel, "template" topic and "*" messages
-    And   I publish a "data" channel, "person" topic and "created" message
-    And   I publish a "notification" channel, "person" topic and "added" message
-    And   I publish a "view" channel, "form" topic and "cancelled" message
-    And   I publish a "view" channel, "template" topic and "loaded" message
-    And   I publish a "view" channel, "template" topic and "rendered" message
+    And   I publish a "data" channel, "person" topic "created" message
+    And   I publish a "notification" channel, "person" topic "added" message
+    And   I publish a "view" channel, "form" topic "cancelled" message
+    And   I publish a "view" channel, "template" topic "loaded" message
+    And   I publish a "view" channel, "template" topic "rendered" message
     Then  I will receive all "view" channel and "template" topic messages
 
 
-  Scenario: Message Subscription
+  Scenario: Kind Subscription
     Given I have a Message Bus
     When  I subscribe to "view" channel, "template" topic and "rendered" messages
-    And   I publish a "data" channel, "person" topic and "created" message
-    And   I publish a "notification" channel, "person" topic and "added" message
-    And   I publish a "view" channel, "form" topic and "cancelled" message
-    And   I publish a "view" channel, "template" topic and "loaded" message
-    And   I publish a "view" channel, "template" topic and "rendered" message
-    Then  I will receive the "view" channel, "template" topic and "rendered" message
+    And   I publish a "data" channel, "person" topic "created" message
+    And   I publish a "notification" channel, "person" topic "added" message
+    And   I publish a "view" channel, "form" topic "cancelled" message
+    And   I publish a "view" channel, "template" topic "loaded" message
+    And   I publish a "view" channel, "template" topic "rendered" message
+    Then  I will receive the "view" channel, "template" topic "rendered" message

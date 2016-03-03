@@ -9,12 +9,13 @@ _                = require 'underscore'
 
 module.exports = ->
 
-  @Given 'I have "$channel" channel, "$topic" topic "$message" Message model', (channel, topic, message) ->
-    @message = new Message channel: channel, topic: topic, message: message
+  @Given 'I have "$channel" channel, "$topic" topic "$kind" Message model', (channel, topic, kind) ->
+    @message = new Message channel: channel, topic: topic, kind: kind
     @message
 
 
   @Given 'I have a Message Bus', ->
+    @received = new Collection ModelClass: Message
     @bus = new Bus
     @bus
 
@@ -30,31 +31,32 @@ module.exports = ->
 
 
   @When 'I subscribe to all bus messages', ->
-    @received = new Collection ModelClass: Message
-    @bus.subscribe new Message(), (message) ->
+    @received.removeAll()
+
+    messages =
+      channel: '*'
+      topic: '*'
+      kind: '*'
+
+    @bus.subscribe _.extend messages, subscription: (message) =>
       @received.add message
 
 
-  @When 'I subscribe to "$channel" channel messages', (channel) ->
-    @received = new Collection ModelClass: Message
-    @bus.subscribe new Message channel: channel, (message) ->
+  @When 'I subscribe to "$channel" channel, "$topic" topic and "$kind" messages', (channel, topic, kind) ->
+    @received.removeAll()
+
+    messages =
+      channel: channel
+      topic: topic
+      kind: kind
+
+    @bus.subscribe _.extend messages, subscription: (message) =>
+      console.log message
       @received.add message
 
 
-  @When 'I subscribe to "$channel" channel and "$topic" topic messages', (channel, topic) ->
-    @received = new Collection ModelClass: Message
-    @bus.subscribe new Message channel: channel topic: topic, (message) ->
-      @received.add message
-
-
-  @When 'I subscribe to "$channel" channel, "$topic" topic and "$message" messages', (channel, topic, message) ->
-    @received = new Collection ModelClass: Message
-    @bus.subscribe new Message channel: channel topic: topic message: message, (message) ->
-      @received.add message
-
-
-  @When 'I publish a "$channel" channel, "$topic" topic and "$message" message', (channel, topic, message) ->
-    @bus.publish new Message channel: channel topic: topic message: message
+  @When 'I publish a "$channel" channel, "$topic" topic "$kind" message', (channel, topic, kind) ->
+    @bus.publish new Message channel: channel, topic: topic, kind: kind
 
 
   @Then 'the "$property" property value will not equal "$value"', (property, value) ->
@@ -62,22 +64,19 @@ module.exports = ->
 
 
   @Then 'I will receive all bus messages', ->
-    expect(@received.size).to.equal 5
+    expect(@received.size()).to.equal 5 # TODO Remove magic number
 
 
   @Then 'I will receive all "$channel" channel messages', (channel) ->
-    expect(@received.size).to.equal 3
     messages = @received.where channel: channel
-    expect(messages.length).to.equal 3
+    expect(@received.size()).to.equal messages.length
 
 
   @Then 'I will receive all "$channel" channel and "$topic" topic messages', (channel, topic) ->
-    expect(@received.size).to.equal 2
     messages = @received.where channel: channel, topic: topic
-    expect(messages.length).to.equal 2
+    expect(@received.size()).to.equal messages.length
 
 
-  @Then 'I will receive the "$channel" channel, "$topic" topic and "$message" message', (channel, topic, message) ->
-    expect(@received.size).to.equal 1
-    messages = @received.where channel: channel, topic: topic, message: message
-    expect(messages.length).to.equal 1
+  @Then 'I will receive the "$channel" channel, "$topic" topic "$kind" message', (channel, topic, kind) ->
+    messages = @received.where channel: channel, topic: topic, kind: kind
+    expect(@received.size()).to.equal messages.length

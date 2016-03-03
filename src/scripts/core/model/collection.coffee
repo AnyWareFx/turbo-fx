@@ -159,8 +159,8 @@ class Collection extends EventEmitter
 
       unless cancelled
         model = @models.splice(index, 1)[0]
-        model.unobserve Model.Events.CHANGING, @forward
-        model.unobserve Model.Events.CHANGED,  @forward
+        model.unobserve Model.Events.CHANGING, @_forward
+        model.unobserve Model.Events.CHANGED,  @_forward
 
         @emit
           type: Collection.Events.REMOVED
@@ -168,7 +168,12 @@ class Collection extends EventEmitter
     @
 
 
-  forward: (event) =>
+  removeAll: ->
+    @each (model) =>
+      @remove model
+
+
+  _forward: (event) =>
     @emit event
 
 
