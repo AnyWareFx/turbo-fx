@@ -30,7 +30,3 @@ module.exports = ->
 
   @Then 'the "$property" property value will equal "$value"', (property, value) ->
     expect(@model.get(property)).to.equal value
-
-
-  @Then 'the "$property" property value will not equal "$value"', (property, value) ->
-    expect(@model.get(property)).to.not.equal value

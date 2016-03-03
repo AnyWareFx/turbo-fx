@@ -46,16 +46,6 @@ module.exports = ->
       true
 
 
-  @When 'I try to set the "$property" property to "$value"', (property, value) ->
-    @model = @frozen or @unfrozen or @person
-    @model.set property, value
-
-
-  @When 'I try to add a "$property" property', (property) ->
-    @model = @locked or @unlocked
-    @model.set property, 'value'
-
-
   @Then 'the model will have the "$property" property', (property) ->
     expect(@model.has(property)).to.be.true
 

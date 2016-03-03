@@ -1,8 +1,19 @@
+_         = require 'underscore'
+
+{ Model } = require '../model'
 
 
-class Message
-  constructor: (attributes) ->
-    {@channel, @topic, @message, @value} = attributes
+class Message extends Model
+  constructor: (properties = {}) ->
+    defaults =
+      channel: '*'
+      topic: '*'
+      message: '*'
+      payload: ''
+
+    super _.defaults {}, properties, defaults
+
+    @set locked: true, frozen: true
 
 
-module.exports Message
+module.exports = Message

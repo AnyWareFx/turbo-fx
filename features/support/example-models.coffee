@@ -1,4 +1,4 @@
-Model = require '../../src/scripts/core/model/model'
+{ Model } = require '../../src/scripts/core/model'
 
 
 class Person extends Model
