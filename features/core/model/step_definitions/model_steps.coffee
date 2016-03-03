@@ -3,7 +3,7 @@
 
 
 { expect } = require 'chai'
-{ Person } = require '../support/example-models'
+{ Person } = require '../../../support/example-models'
 
 
 module.exports = ->
@@ -34,11 +34,20 @@ module.exports = ->
 
 
 
-  @When 'I cancel the "$event" event', (event) ->
+  @When 'I observe the "$type" event', (type) ->
+    @observed = null
+    @person.observe type, (event) =>
+      @observed = event
+
+
+  @When 'I cancel the "$type" event', (type) ->
+    @observed = null
+    @person.observe type, ->
+      true
 
 
   @When 'I try to set the "$property" property to "$value"', (property, value) ->
-    @model = @frozen or @unfrozen
+    @model = @frozen or @unfrozen or @person
     @model.set property, value
 
 
@@ -63,10 +72,12 @@ module.exports = ->
     expect(@model.has(property)).to.be.false
 
 
-  @Then 'I will observe the "$event" event', (event) ->
+  @Then 'I will receive the "$type" event', (type) ->
+    expect(@observed?.type).to.equal type
 
 
-  @Then 'I will not observe the "$event" event', (event) ->
+  @Then 'I will not receive the "$type" event', (type) ->
+    expect(@observed).to.equal null
 
 
   @AfterAll = ->
