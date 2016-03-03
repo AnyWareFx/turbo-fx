@@ -24,7 +24,7 @@ class Collection extends EventEmitter
 
 
   add: (model) ->
-    if not model instanceof Model
+    if not model instanceof @ModelClass
       @add new @ModelClass model
 
     else if not _.contains @models, model
