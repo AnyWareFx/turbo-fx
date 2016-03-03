@@ -75,7 +75,7 @@ class Channel
 
 
   receive: (message) ->
-    if message.channel = @name
+    if message.channel is @name
       _.each @subscriptions, (subscription) ->
         subscription message
 

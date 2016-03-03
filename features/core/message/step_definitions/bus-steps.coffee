@@ -30,18 +30,6 @@ module.exports = ->
     @model.set property, 'value'
 
 
-  @When 'I subscribe to all bus messages', ->
-    @received.removeAll()
-
-    messages =
-      channel: '*'
-      topic: '*'
-      kind: '*'
-
-    @bus.subscribe _.extend messages, subscription: (message) =>
-      @received.add message
-
-
   @When 'I subscribe to "$channel" channel, "$topic" topic and "$kind" messages', (channel, topic, kind) ->
     @received.removeAll()
 
@@ -51,7 +39,6 @@ module.exports = ->
       kind: kind
 
     @bus.subscribe _.extend messages, subscription: (message) =>
-      console.log message
       @received.add message
 
 
@@ -77,6 +64,6 @@ module.exports = ->
     expect(@received.size()).to.equal messages.length
 
 
-  @Then 'I will receive the "$channel" channel, "$topic" topic "$kind" message', (channel, topic, kind) ->
+  @Then 'I will receive "$channel" channel, "$topic" topic "$kind" messages', (channel, topic, kind) ->
     messages = @received.where channel: channel, topic: topic, kind: kind
     expect(@received.size()).to.equal messages.length

@@ -53,4 +53,4 @@ Feature: Message Bus Feature
     And   I publish a "view" channel, "form" topic "cancelled" message
     And   I publish a "view" channel, "template" topic "loaded" message
     And   I publish a "view" channel, "template" topic "rendered" message
-    Then  I will receive the "view" channel, "template" topic "rendered" message
+    Then  I will receive "view" channel, "template" topic "rendered" messages
