@@ -37,12 +37,14 @@ class Model extends EventEmitter
     (
       name in ['frozen', 'locked'] and
       _.isBoolean(value)
-    ) or
-    (
+
+    ) or (
+
       not @properties.frozen and
       _.isScalar(value) and
       value != @properties[name]
     )
+
 
   get: (name) ->
     @properties[name]
