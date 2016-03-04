@@ -1,8 +1,15 @@
-_          = require 'underscore'
-validators = require 'validator'
+_         = require 'underscore'
+validator = require 'validator'
+moment    = require 'moment'
 
-DataTypes  = require './data-types'
-{ Model }  = require '../model'
+DataTypes = require './data-types'
+{ Model } = require '../model'
+
+
+validators = _.extend {},
+  validator,
+  isDate: (date) ->
+    moment(date).isValid()
 
 
 defaults =

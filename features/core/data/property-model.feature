@@ -10,8 +10,10 @@ Feature: PropertyModel Feature
     Then  the "errorMessage" property equals "<message>"
 
     Examples:
-      | type         | value                      | message                            |
-      | EMAIL        | dave.jackson@anywarefx.com |                                    |
-      | NUMERIC      | 72915                      |                                    |
-      | EMAIL        | dave.jackson               | invalid email address              |
-      | NUMERIC      | 7.29                       | requires numbers only              |
+      | type         | value                      | message               |
+      | EMAIL        | dave.jackson@anywarefx.com |                       |
+      | NUMERIC      | 72915                      |                       |
+      | DATE         | 7/29/15                    |                       |
+      | EMAIL        | dave.jackson               | invalid email address |
+      | NUMERIC      | 7.29                       | requires numbers only |
+      | DATE         | 7.32                       | invalid date          |
