@@ -1,5 +1,6 @@
-_ = require 'underscore'
-{Model, Collection} = require '../model'
+_                     = require 'underscore'
+validator             = require 'validator'
+{ Model, Collection } = require '../model'
 
 
 defaults =
@@ -10,15 +11,51 @@ defaults =
 
 
 class PropertyModel extends Model
+  @Kinds:
+    ALPHA:          'isAlpha'
+    ALPHA_NUMERIC:  'isAlphanumeric'
+    ASCII:          'isAscii'
+    BASE64:         'isBase64'
+    BOOLEAN:        'isBoolean'
+    CREDIT_CARD:    'isCreditCard'
+    CURRENCY:       'isCurrency'
+    DATE:           'isDate'
+    DECIMAL:        'isDecimal'
+    EMAIL:          'isEmail'
+    FQDN:           'isFQDN'
+    FLOAT:          'isFloat'
+    HEX_COLOR:      'isHexColor'
+    HEXADECIMAL:    'isHexadecimal'
+    IP:             'isIP'
+    ISBN:           'isISBN'
+    ISIN:           'isISIN'
+    ISO8601:        'isISO8601'
+    INT:            'isInt'
+    JSON:           'isJSON'
+    MOBILE_PHONE:   'isMobilePhone'
+    NUMERIC:        'isNumeric'
+    URL:            'isURL'
+    UUID:           'isUUID'
+
+
   constructor: (attributes = {})->
-    super _.defaults attributes, defaults
+    allowed = _.pick attributes, _.keys defaults
+    super _.defaults allowed, defaults
+    @set locked: true
     @validators = []
 
-  set: (name, value) ->
-    if arguments.length == 1
-      super()
-    else if _.contains defaults, name
-      super name, value
+
+  _valueAllowed: (name, value) ->
+    (
+      name is 'required' and
+      _.isBoolean value
+
+    ) or (
+      name is 'kind' and
+      value in _.keys PropertyModel.Kinds
+
+    ) or super name, value
+
 
 
 class Schema extends Model
@@ -32,11 +69,6 @@ class Schema extends Model
 
 
 class DataModel extends Model
-  constructor: (attributes = {}) ->
-    super attributes
-
-    @schema = _.defaults attributes,
-      schema: new Schema()
 
 
-module.exports = DataModel
+module.exports = { DataModel, Schema, PropertyModel }

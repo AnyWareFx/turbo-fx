@@ -1,4 +1,5 @@
-{ Model } = require '../../src/scripts/core/model'
+{ Model }     = require '../../src/scripts/core/model'
+{ DataModel } = require '../../src/scripts/core/data'
 
 
 class Person extends Model
@@ -12,9 +13,7 @@ class Address
     { @address1, @address2, @city, @state, @zip } = properties
 
 
-class ContactPoint
-  constructor: (properties) ->
-    { @type, @address, @phone, @email } = properties
+class ContactPoint extends DataModel
 
 
 module.exports = { Person, Employee, Address, ContactPoint }
