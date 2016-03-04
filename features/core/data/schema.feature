@@ -17,7 +17,7 @@ Feature: Schema Feature
     When  I try to set the "email" property to "Dave"
     And   I execute the "validate" method
     Then  the response is equal to the "validationErrors" property
-    And   the "validationErrors" property contains "Invalid email address"
+    And   the "validationErrors" property contains "invalid email address"
 
 
   Scenario: isValid - Valid Property
@@ -33,4 +33,4 @@ Feature: Schema Feature
     When  I try to set the "email" property to "Dave"
     And   I execute the "isValid" method
     Then  the response is equal to "false"
-    And   the "validationErrors" property contains "Invalid email address"
+    And   the "validationErrors" property contains "invalid email address"

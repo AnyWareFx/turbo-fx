@@ -1,48 +1,26 @@
 _                     = require 'underscore'
-validator             = require 'validator'
+validators            = require 'validator'
+
+DataTypes             = require './data-types'
 { Model, Collection } = require '../model'
 
 
 defaults =
-  name: '',
-  kind: '',
-  required: false,
+  name: ''
+  dataType: ''
+  required: false
+  errorMessage: ''
   defaultValue: null
 
 
 class PropertyModel extends Model
-  @Kinds:
-    ALPHA:          'isAlpha'
-    ALPHA_NUMERIC:  'isAlphanumeric'
-    ASCII:          'isAscii'
-    BASE64:         'isBase64'
-    BOOLEAN:        'isBoolean'
-    CREDIT_CARD:    'isCreditCard'
-    CURRENCY:       'isCurrency'
-    DATE:           'isDate'
-    DECIMAL:        'isDecimal'
-    EMAIL:          'isEmail'
-    FQDN:           'isFQDN'
-    FLOAT:          'isFloat'
-    HEX_COLOR:      'isHexColor'
-    HEXADECIMAL:    'isHexadecimal'
-    IP:             'isIP'
-    ISBN:           'isISBN'
-    ISIN:           'isISIN'
-    ISO8601:        'isISO8601'
-    INT:            'isInt'
-    JSON:           'isJSON'
-    MOBILE_PHONE:   'isMobilePhone'
-    NUMERIC:        'isNumeric'
-    URL:            'isURL'
-    UUID:           'isUUID'
+  @TYPES: DataTypes
 
 
   constructor: (attributes = {})->
     allowed = _.pick attributes, _.keys defaults
     super _.defaults allowed, defaults
     @set locked: true
-    @validators = []
 
 
   _valueAllowed: (name, value) ->
@@ -51,20 +29,32 @@ class PropertyModel extends Model
       _.isBoolean value
 
     ) or (
-      name is 'kind' and
-      value in _.keys PropertyModel.Kinds
+      name is 'dataType' and
+      value in _.keys DataTypes
 
     ) or super name, value
 
 
+  validate: (value) ->
+    DataType = DataTypes[@get 'dataType']
+    if DataType? and validators[DataType.validator]?
+      if validators[DataType.validator](value)
+        message = ''
+      else
+        message = DataType.errorMessage
+    else
+      message = 'invalid data type'
+    @set 'errorMessage', message
+    @get 'errorMessage'
+
+
 
 class Schema extends Model
-  constructor: (attributes = {}) ->
-    super attributes
+  constructor: (properties = {}) ->
+    super properties
 
-    {@validators, @propertyModels} = _.defaults attributes,
-      validators: [],
-      propertyModels: new Collection()
+    @propertyModels = _.defaults properties,
+      propertyModels: new Collection ModelClass: PropertyModel
 
 
 

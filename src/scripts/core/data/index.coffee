@@ -1,6 +1,7 @@
 DataAccessObject                     = require './data-access-object'
-{ DataModel, Schema, PropertyModel } = require './data-model'
 DataSource                           = require './data-source'
+DataTypes                            = require './data-types'
+{ DataModel, Schema, PropertyModel } = require './data-model'
 
 
-module.exports = { DataAccessObject, DataModel, Schema, PropertyModel, DataSource }
+module.exports = { DataAccessObject, DataSource, DataTypes, DataModel, Schema, PropertyModel }
