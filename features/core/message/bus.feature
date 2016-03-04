@@ -5,7 +5,7 @@ Feature: Message Bus Feature
 
 
   Scenario: Immutable Messages
-    Given I have "view" channel, "template" topic "rendered" Message model
+    Given I have channel: "view", topic: "template" and kind: "rendered" Message model
     When  I try to add a "data" property
     And   I try to set the "channel" property to "cucumber"
     Then  the model will not have the "data" property
@@ -14,43 +14,43 @@ Feature: Message Bus Feature
 
   Scenario: Bus Subscription
     Given I have a Message Bus
-    When  I subscribe to "*" channel, "*" topic and "*" messages
-    And   I publish a "data" channel, "person" topic "created" message
-    And   I publish a "notification" channel, "person" topic "added" message
-    And   I publish a "view" channel, "form" topic "cancelled" message
-    And   I publish a "view" channel, "template" topic "loaded" message
-    And   I publish a "view" channel, "template" topic "rendered" message
+    When  I subscribe to channel: "*", topic: "*" and kind: "*" messages
+    And   I publish a channel: "data", topic: "person" and kind: "created" message
+    And   I publish a channel: "notification", topic: "person" and kind: "added" message
+    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
+    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
+    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
     Then  I will receive all bus messages
 
 
   Scenario: Channel Subscription
     Given I have a Message Bus
-    When  I subscribe to "view" channel, "*" topic and "*" messages
-    And   I publish a "data" channel, "person" topic "created" message
-    And   I publish a "notification" channel, "person" topic "added" message
-    And   I publish a "view" channel, "form" topic "cancelled" message
-    And   I publish a "view" channel, "template" topic "loaded" message
-    And   I publish a "view" channel, "template" topic "rendered" message
-    Then  I will receive all "view" channel messages
+    When  I subscribe to channel: "view", topic: "*" and kind: "*" messages
+    And   I publish a channel: "data", topic: "person" and kind: "created" message
+    And   I publish a channel: "notification", topic: "person" and kind: "added" message
+    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
+    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
+    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
+    Then  I will receive all channel: "view" messages
 
 
   Scenario: Topic Subscription
     Given I have a Message Bus
-    When  I subscribe to "view" channel, "template" topic and "*" messages
-    And   I publish a "data" channel, "person" topic "created" message
-    And   I publish a "notification" channel, "person" topic "added" message
-    And   I publish a "view" channel, "form" topic "cancelled" message
-    And   I publish a "view" channel, "template" topic "loaded" message
-    And   I publish a "view" channel, "template" topic "rendered" message
-    Then  I will receive all "view" channel and "template" topic messages
+    When  I subscribe to channel: "view", topic: "template" and kind: "*" messages
+    And   I publish a channel: "data", topic: "person" and kind: "created" message
+    And   I publish a channel: "notification", topic: "person" and kind: "added" message
+    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
+    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
+    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
+    Then  I will receive all channel: "view" and topic: "template" messages
 
 
   Scenario: Kind Subscription
     Given I have a Message Bus
-    When  I subscribe to "view" channel, "template" topic and "rendered" messages
-    And   I publish a "data" channel, "person" topic "created" message
-    And   I publish a "notification" channel, "person" topic "added" message
-    And   I publish a "view" channel, "form" topic "cancelled" message
-    And   I publish a "view" channel, "template" topic "loaded" message
-    And   I publish a "view" channel, "template" topic "rendered" message
-    Then  I will receive "view" channel, "template" topic "rendered" messages
+    When  I subscribe to channel: "view", topic: "template" and kind: "rendered" messages
+    And   I publish a channel: "data", topic: "person" and kind: "created" message
+    And   I publish a channel: "notification", topic: "person" and kind: "added" message
+    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
+    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
+    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
+    Then  I will receive all channel: "view", topic: "template" and kind: "rendered" messages
