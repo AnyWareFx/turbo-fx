@@ -69,6 +69,11 @@ class Schema extends Model
 
 
 class DataModel extends Model
+  validate: ->
+
+
+  isValid: ->
+
 
 
 module.exports = { DataModel, Schema, PropertyModel }
