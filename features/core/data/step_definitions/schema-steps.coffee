@@ -22,6 +22,10 @@ module.exports = ->
     expect(@response).to.equal value
 
 
+  @Then 'the "$property" property is empty', (property) ->
+    expect(_.isEmpty(@model.get property)).to.be.true
+
+
   # FIXME
   @Then 'the "$property" property contains "$value"', (property, value) ->
     expect(_.findWhere(@model.get(property), message: value)).to.be.true

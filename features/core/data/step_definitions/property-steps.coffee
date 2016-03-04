@@ -6,8 +6,8 @@ _                 = require 'underscore'
 
 module.exports = ->
 
-  @Given 'I have a PropertyModel with dataType: "$dataType"', (dataType) ->
-    @property = new PropertyModel dataType: dataType
+  @Given 'I have a PropertyModel with type "$type"', (type) ->
+    @property = new PropertyModel dataType: type
 
 
   @When 'I execute the "$method" method with the value "$value"', (method, value) ->
@@ -15,13 +15,5 @@ module.exports = ->
     @response = @model[method](value)
 
 
-  @Then 'the response is equal to the "$property" property', (property) ->
-    expect(_.isEqual(@response, @model.get property)).to.be.true
-
-
-  @Then 'the "$property" property is empty', (property) ->
-    expect(_.isEmpty(@model.get property)).to.be.true
-
-
   @Then 'the "$property" property equals "$value"', (property, value) ->
-    expect(@model.get(property)).to.equal value
+    expect(@model.get property).to.equal value

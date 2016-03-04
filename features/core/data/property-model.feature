@@ -4,15 +4,14 @@ Feature: PropertyModel Feature
   So that I can define a Schema
 
 
-  Scenario: Validate - Valid Value
-    Given I have a PropertyModel with dataType: "EMAIL"
-    When  I execute the "validate" method with the value "dave.jackson@anywarefx.com"
-    Then  the response is equal to the "errorMessage" property
-    And   the "errorMessage" property is empty
+  Scenario Outline: Validate Examples
+    Given I have a PropertyModel with type "<type>"
+    When  I execute the "validate" method with the value "<value>"
+    Then  the "errorMessage" property equals "<message>"
 
-
-  Scenario: Validate - Invalid Value
-    Given I have a PropertyModel with dataType: "EMAIL"
-    When  I execute the "validate" method with the value "Dave"
-    Then  the response is equal to the "errorMessage" property
-    And   the "errorMessage" property equals "invalid email address"
+    Examples:
+      | type         | value                      | message                            |
+      | EMAIL        | dave.jackson@anywarefx.com |                                    |
+      | NUMERIC      | 72915                      |                                    |
+      | EMAIL        | dave.jackson               | invalid email address              |
+      | NUMERIC      | 7.29                       | requires numbers only              |
