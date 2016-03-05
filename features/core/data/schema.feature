@@ -4,33 +4,17 @@ Feature: Schema Feature
   So that I can validate model properties
 
 
-  Scenario: Validate - Valid Property
-    Given I have a ContactPoint DataModel
-    When  I try to set the "email" property to "dave.jackson@anywarefx.com"
-    And   I execute the "validate" method
-    Then  the response is equal to the "validationErrors" property
-    And   the "validationErrors" property is empty
+  Background:
+    Given I have a Schema
+    And   I add a PropertyModel with name: "email" and dataType: "EMAIL"
+    And   I add a PropertyModel with name: "date" and dataType: "DATE"
 
 
-  Scenario: Validate - Invalid Property
-    Given I have a ContactPoint DataModel
-    When  I try to set the "email" property to "Dave"
-    And   I execute the "validate" method
-    Then  the response is equal to the "validationErrors" property
-    And   the "validationErrors" property contains "invalid email address"
+  Scenario Outline: Validate Examples
+    When I execute the "<method>" method with the value "<value>"
+    Then the JSON response is equal to <response>
 
-
-  Scenario: isValid - Valid Property
-    Given I have a ContactPoint DataModel
-    When  I try to set the "email" property to "dave.jackson@anywarefx.com"
-    And   I execute the "isValid" method
-    Then  the response is equal to "true"
-    And   the "validationErrors" property is empty
-
-
-  Scenario: isValid - Invalid Property
-    Given I have a ContactPoint DataModel
-    When  I try to set the "email" property to "Dave"
-    And   I execute the "isValid" method
-    Then  the response is equal to "false"
-    And   the "validationErrors" property contains "invalid email address"
+    Examples:
+      | method   | value                                                  | response      |
+      | validate | {email: 'dave.jackson@anywarefx.com', date: '7/29/15'} | emptyResponse |
+      | validate | {email: 'dave.jackson', date: '7/32/15'}               | errorResponse |

@@ -1,31 +1,24 @@
-{ expect }       = require 'chai'
-{ ContactPoint } = require '../../../support/example-models'
+_                         = require 'underscore'
+{ expect }                = require 'chai'
+{ Schema, PropertyModel } = require '../../../../src/scripts/core/data'
+
+
+responses =
+  emptyResponse: {}
+  errorResponse:
+    email: 'invalid email address'
+    date: 'invalid date'
 
 
 module.exports = ->
 
-  @Given 'I have a ContactPoint DataModel', () ->
-    @contact = new ContactPoint()
+  @Given 'I have a Schema', () ->
+    @schema = new Schema()
 
 
-  @When 'I try to set the "$property" property to "$value"', (property, value) ->
-    @model ?= @frozen or @unfrozen or @person or @message or @contact or @property
-    @model.set property, value
+  @Given 'I add a PropertyModel with name: "$name" and dataType: "$dataType"', (name, dataType) ->
+    @schema.propertyModels.add new PropertyModel name: name, dataType: dataType
 
 
-  @When 'I execute the "$method" method', (method) ->
-    @model ?= @frozen or @unfrozen or @person or @message or @contact or @property
-    @response = @model[method]()
-
-
-  @Then 'the response is equal to "$value"', (value) ->
-    expect(@response).to.equal value
-
-
-  @Then 'the "$property" property is empty', (property) ->
-    expect(_.isEmpty(@model.get property)).to.be.true
-
-
-  # FIXME
-  @Then 'the "$property" property contains "$value"', (property, value) ->
-    expect(_.findWhere(@model.get(property), message: value)).to.be.true
+  @Then 'the JSON response is equal to $value', (value) ->
+    expect(_.isEqual @response, responses[value])

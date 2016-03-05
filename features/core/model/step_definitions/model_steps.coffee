@@ -43,11 +43,11 @@ module.exports = ->
 
 
   @Then 'the model will have the "$property" property', (property) ->
-    expect(@model.has(property)).to.be.true
+    expect(@model.has property)
 
 
   @Then 'the model will not have the "$property" property', (property) ->
-    expect(@model.has(property)).to.be.false
+    expect(not @model.has property)
 
 
   @Then 'I will receive the "$type" event', (type) ->
