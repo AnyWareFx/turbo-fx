@@ -23,7 +23,7 @@ module.exports = ->
 
 
   @When 'I try to set the "$property" property to "$value"', (property, value) ->
-    @model = @frozen or @unfrozen or @person or @message or @schema
+    @model = @frozen or @unfrozen or @person or @message or @dataModel or @schema
     @model.set property, value
 
 
