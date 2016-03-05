@@ -22,6 +22,11 @@ module.exports = ->
     @model.set property, 'value'
 
 
+  @When 'I try to set the "$property" property to "$value"', (property, value) ->
+    @model = @frozen or @unfrozen or @person or @message
+    @model.set property, value
+
+
   @When 'I subscribe to channel: "$channel", topic: "$topic" and kind: "$kind" messages', (channel, topic, kind) ->
     @received.removeAll()
 

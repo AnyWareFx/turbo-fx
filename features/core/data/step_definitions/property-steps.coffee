@@ -11,7 +11,7 @@ module.exports = ->
 
 
   @When 'I execute the "$method" method with the value "$value"', (method, value) ->
-    @model ?= @frozen or @unfrozen or @person or @message or @contact or @property
+    @model ?= @frozen or @unfrozen or @person or @message or @property or @schema
     @response = @model[method](value)
 
 
