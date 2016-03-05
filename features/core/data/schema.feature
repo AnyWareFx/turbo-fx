@@ -15,6 +15,6 @@ Feature: Schema Feature
     Then the JSON response is equal to <response>
 
     Examples:
-      | method   | value                                                  | response      |
-      | validate | {email: 'dave.jackson@anywarefx.com', date: '7/29/15'} | emptyResponse |
-      | validate | {email: 'dave.jackson', date: '7/32/15'}               | errorResponse |
+      | method   | value                                      | response      |
+      | validate | {email: 'dave@email.com', date: '7/29/15'} | emptyResponse |
+      | validate | {email: 'dave.jackson', date: '7/32/15'}   | errorResponse |
