@@ -23,34 +23,46 @@ Feature: Message Bus Feature
     Then  I will receive all bus messages
 
 
-  Scenario: Channel Subscription
+  Scenario Outline: Channel Subscription
     Given I have a Message Bus
     When  I subscribe to channel: "view", topic: "*" and kind: "*" messages
-    And   I publish a channel: "data", topic: "person" and kind: "created" message
-    And   I publish a channel: "notification", topic: "person" and kind: "added" message
-    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
-    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
-    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
+    And   I publish a channel: "<channel>", topic: "<topic>" and kind: "<kind>" message
     Then  I will receive all channel: "view" messages
 
+    Examples:
+      | channel      | topic    | kind      |
+      | data         | person   | created   |
+      | notification | person   | added     |
+      | view         | form     | cancelled |
+      | view         | template | loaded    |
+      | view         | template | rendered  |
 
-  Scenario: Topic Subscription
+
+  Scenario Outline: Topic Subscription
     Given I have a Message Bus
     When  I subscribe to channel: "view", topic: "template" and kind: "*" messages
-    And   I publish a channel: "data", topic: "person" and kind: "created" message
-    And   I publish a channel: "notification", topic: "person" and kind: "added" message
-    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
-    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
-    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
+    And   I publish a channel: "<channel>", topic: "<topic>" and kind: "<kind>" message
     Then  I will receive all channel: "view" and topic: "template" messages
 
+    Examples:
+      | channel      | topic    | kind      |
+      | data         | person   | created   |
+      | notification | person   | added     |
+      | view         | form     | cancelled |
+      | view         | template | loaded    |
+      | view         | template | rendered  |
 
-  Scenario: Kind Subscription
+
+  Scenario Outline: Kind Subscription
     Given I have a Message Bus
     When  I subscribe to channel: "view", topic: "template" and kind: "rendered" messages
-    And   I publish a channel: "data", topic: "person" and kind: "created" message
-    And   I publish a channel: "notification", topic: "person" and kind: "added" message
-    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
-    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
-    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
+    And   I publish a channel: "<channel>", topic: "<topic>" and kind: "<kind>" message
     Then  I will receive all channel: "view", topic: "template" and kind: "rendered" messages
+
+    Examples:
+      | channel      | topic    | kind      |
+      | data         | person   | created   |
+      | notification | person   | added     |
+      | view         | form     | cancelled |
+      | view         | template | loaded    |
+      | view         | template | rendered  |
