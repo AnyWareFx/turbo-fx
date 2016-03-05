@@ -41,12 +41,10 @@ class PropertyModel extends Model
 
 
   validate: (value) ->
+    message = ''
     DataType = DataTypes[@get 'dataType']
 
-    if validators[DataType.validator](value)
-      message = ''
-
-    else
+    if value? and not validators[DataType.validator](value)
       message = DataType.errorMessage
 
     message
