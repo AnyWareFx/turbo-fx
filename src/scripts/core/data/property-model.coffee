@@ -6,18 +6,19 @@ DataTypes = require './data-types'
 { Model } = require '../model'
 
 
+
 validators = _.extend {},
   validator,
   isDate: (date) ->
-    moment(date).isValid()
+    moment(date, 'MM/DD/YYYY').isValid() # FIXME
 
 
 defaults =
   name: ''
   dataType: ''
   required: false
-  errorMessage: ''
   defaultValue: null
+
 
 
 class PropertyModel extends Model
@@ -44,11 +45,12 @@ class PropertyModel extends Model
 
     if validators[DataType.validator](value)
       message = ''
+
     else
       message = DataType.errorMessage
 
-    @set 'errorMessage', message
-    @get 'errorMessage'
+    message
+
 
 
 module.exports = PropertyModel

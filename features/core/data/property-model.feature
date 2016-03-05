@@ -7,10 +7,10 @@ Feature: PropertyModel Feature
   Scenario Outline: Validate Examples
     Given I have a PropertyModel with type "<type>"
     When  I execute the "validate" method with the value "<value>"
-    Then  the "errorMessage" property equals "<message>"
+    Then  the response is equal to "<response>"
 
     Examples:
-      | type         | value                      | message               |
+      | type         | value                      | response              |
       | EMAIL        | dave.jackson@anywarefx.com |                       |
       | NUMERIC      | 72915                      |                       |
       | DATE         | 7/29/15                    |                       |

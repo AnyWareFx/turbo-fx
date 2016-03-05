@@ -15,5 +15,5 @@ module.exports = ->
     @response = @model[method](value)
 
 
-  @Then 'the "$property" property equals "$value"', (property, value) ->
-    expect(@model.get property).to.equal value
+  @Then 'the response is equal to "$value"', (value) ->
+    expect(@response).to.equal value
