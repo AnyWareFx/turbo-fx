@@ -18,12 +18,12 @@ module.exports = ->
 
 
   @When 'I try to add a "$property" property', (property) ->
-    @model = @locked or @unlocked or @message
+    @model = @locked or @unlocked or @message or @dataModel
     @model.set property, 'value'
 
 
   @When 'I try to set the "$property" property to "$value"', (property, value) ->
-    @model = @frozen or @unfrozen or @person or @message
+    @model = @frozen or @unfrozen or @person or @message or @dataModel or @schema
     @model.set property, value
 
 

@@ -30,19 +30,19 @@ class Model extends EventEmitter
     _.isString(name) and
     (
       not @properties.locked or
-      @has name
+        @has name
     )
 
   _valueAllowed: (name, value) ->
     (
       name in ['frozen', 'locked'] and
-      _.isBoolean(value)
+        _.isBoolean(value)
 
     ) or (
 
       not @properties.frozen and
-      _.isScalar(value) and
-      value != @properties[name]
+        _.isScalar(value) and
+        value != @properties[name]
     )
 
 

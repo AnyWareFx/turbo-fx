@@ -1,4 +1,3 @@
-_                 = require 'underscore'
 { expect }        = require 'chai'
 
 { PropertyModel } = require '../../../../src/scripts/core/data'
@@ -11,9 +10,9 @@ module.exports = ->
 
 
   @When 'I execute the "$method" method with the value "$value"', (method, value) ->
-    @model ?= @frozen or @unfrozen or @person or @message or @property or @schema
+    @model = @frozen or @unfrozen or @person or @message or @property or @dataModel or @schema
     @response = @model[method](value)
 
 
   @Then 'the response is equal to "$value"', (value) ->
-    expect(@response).to.equal value
+    expect(@response.toString()).to.equal value

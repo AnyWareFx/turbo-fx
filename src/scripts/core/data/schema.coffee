@@ -8,6 +8,7 @@ class Schema extends Model
     super properties
 
     { @propertyModels } = _.defaults {}, properties,
+      strict: true
       propertyModels: new Collection ModelClass: PropertyModel
 
 

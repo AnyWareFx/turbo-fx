@@ -1,7 +1,3 @@
-#async     = require 'asyncawait/async'
-#await     = require 'asyncawait/await'
-
-
 { expect } = require 'chai'
 { Person } = require '../../../support/example-models'
 
