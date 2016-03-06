@@ -5,20 +5,20 @@ Feature: Undo/Redo Feature
 
 
   Scenario: Set Property
-    Given I have a Person (model)
+    Given I have a Model
     When  I execute a command to set the "firstName" property to "Dave"
     Then  the "firstName" property value will equal "Dave"
 
 
   Scenario: Undo Changes
-    Given I have a Person (model)
+    Given I have a Model
     When  I execute a command to set the "firstName" property to "Dave"
     And   I undo the command
     Then  the "firstName" property value will not equal "Dave"
 
 
   Scenario: Redo Changes
-    Given I have a Person (model)
+    Given I have a Model
     When  I execute a command to set the "firstName" property to "Dave"
     And   I undo the command
     And   I redo the command

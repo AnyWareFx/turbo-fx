@@ -6,11 +6,11 @@
 module.exports = ->
 
   @Given 'I have a PropertyModel with type "$type"', (type) ->
-    @property = new PropertyModel dataType: type
+    @propertyModel = new PropertyModel dataType: type
 
 
   @When 'I execute the "$method" method with the value "$value"', (method, value) ->
-    @model = @frozen or @unfrozen or @person or @message or @property or @dataModel or @schema
+    @model = @dataModel or @schema or @propertyModel or @message
     @response = @model[method](value)
 
 

@@ -1,13 +1,13 @@
 { expect } = require 'chai'
-{ Person } = require '../../../support/example-models'
+{ Model  } = require '../../../../src/scripts/core/model'
 
 { CommandContext, SetPropertyCommand } = require '../../../../src/scripts/core/command'
 
 
 module.exports = ->
 
-  @Given 'I have a Person (model)', () ->
-    @model = new Person firstName: 'David', lastName: 'Jackson'
+  @Given 'I have a Model', () ->
+    @model = new Model firstName: 'David', lastName: 'Jackson'
     @model
 
 
@@ -25,4 +25,4 @@ module.exports = ->
 
 
   @Then 'the "$property" property value will equal "$value"', (property, value) ->
-    expect(@model.get(property)).to.equal value
+    expect(@model.get property).to.equal value
