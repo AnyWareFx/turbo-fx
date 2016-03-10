@@ -4,24 +4,26 @@ Schema    = require './schema'
 
 
 class DataModel extends Model
-  constructor: () ->
-    super()
+  constructor: (properties = {}) ->
     @validationErrors = {}
     @schema = null
+    super
 
 
   set: (name, value) ->
     if name is 'schema'
-      if not @schema and value instanceof Schema
-        @properties = {}
-        @schema = value
+      unless @schema?
+        if value instanceof Schema
+          @properties = {}
+          @schema = value
 
-        @schema.propertyModels.each (property) =>
-          @properties[property.get 'name'] = property.get 'defaultValue'
+          @schema.propertyModels.each (property) =>
+            @properties[property.get 'name'] = property.get 'defaultValue'
 
-        @set 'locked', @schema.get 'strict'
+          @set 'locked', @schema.get 'strict'
+      @
     else
-      super()
+      super
 
 
   validate: ->
