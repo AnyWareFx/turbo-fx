@@ -5,12 +5,13 @@ Feature: Locked Model Feature
 
 
   Scenario: Add a New Property to an Unlocked Model
-    Given I have an unlocked Person model
-    When  I try to add a "salutation" property
+    Given I have a Model
+    When  I add a "salutation" property
     Then  the model will have the "salutation" property
 
 
   Scenario: Add a New Property to a Locked Model
-    Given I have a locked Person model
-    When  I try to add a "salutation" property
+    Given I have a Model
+    And   I set the "locked" property to "true"
+    When  I add a "salutation" property
     Then  the model will not have the "salutation" property

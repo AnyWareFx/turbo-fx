@@ -5,29 +5,29 @@ Feature: Message Bus Feature
 
 
   Scenario: Immutable Messages
-    Given I have channel: "view", topic: "template" and kind: "rendered" Message model
-    When  I try to add a "data" property
-    And   I try to set the "channel" property to "cucumber"
+    Given I have a Message model with channel: "view", topic: "template" and kind: "rendered"
+    When  I add a "data" property
+    And   I set the "channel" property to "cucumber"
     Then  the model will not have the "data" property
     And   the "channel" property value will not equal "cucumber"
 
 
   Scenario: Bus Subscription
     Given I have a Message Bus
-    When  I subscribe to channel: "*", topic: "*" and kind: "*" messages
-    And   I publish a channel: "data", topic: "person" and kind: "created" message
-    And   I publish a channel: "notification", topic: "person" and kind: "added" message
-    And   I publish a channel: "view", topic: "form" and kind: "cancelled" message
-    And   I publish a channel: "view", topic: "template" and kind: "loaded" message
-    And   I publish a channel: "view", topic: "template" and kind: "rendered" message
+    And   I subscribe to messages with channel: "*", topic: "*" and kind: "*"
+    When  I publish a message with channel: "data", topic: "person" and kind: "created"
+    And   I publish a message with channel: "notification", topic: "person" and kind: "added"
+    And   I publish a message with channel: "view", topic: "form" and kind: "cancelled"
+    And   I publish a message with channel: "view", topic: "template" and kind: "loaded"
+    And   I publish a message with channel: "view", topic: "template" and kind: "rendered"
     Then  I will receive all bus messages
 
 
   Scenario Outline: Channel Subscription
     Given I have a Message Bus
-    When  I subscribe to channel: "view", topic: "*" and kind: "*" messages
-    And   I publish a channel: "<channel>", topic: "<topic>" and kind: "<kind>" message
-    Then  I will receive all channel: "view" messages
+    And   I subscribe to messages with channel: "view", topic: "*" and kind: "*"
+    When  I publish a message with channel: "<channel>", topic: "<topic>" and kind: "<kind>"
+    Then  I will receive all messages with channel: "view"
 
     Examples:
       | channel      | topic    | kind      |
@@ -40,9 +40,9 @@ Feature: Message Bus Feature
 
   Scenario Outline: Topic Subscription
     Given I have a Message Bus
-    When  I subscribe to channel: "view", topic: "template" and kind: "*" messages
-    And   I publish a channel: "<channel>", topic: "<topic>" and kind: "<kind>" message
-    Then  I will receive all channel: "view" and topic: "template" messages
+    And   I subscribe to messages with channel: "view", topic: "template" and kind: "*"
+    When  I publish a message with channel: "<channel>", topic: "<topic>" and kind: "<kind>"
+    Then  I will receive all messages with channel: "view" and topic: "template"
 
     Examples:
       | channel      | topic    | kind      |
@@ -55,9 +55,9 @@ Feature: Message Bus Feature
 
   Scenario Outline: Kind Subscription
     Given I have a Message Bus
-    When  I subscribe to channel: "view", topic: "template" and kind: "rendered" messages
-    And   I publish a channel: "<channel>", topic: "<topic>" and kind: "<kind>" message
-    Then  I will receive all channel: "view", topic: "template" and kind: "rendered" messages
+    And   I subscribe to messages with channel: "view", topic: "template" and kind: "rendered"
+    When  I publish a message with channel: "<channel>", topic: "<topic>" and kind: "<kind>"
+    Then  I will receive all messages with channel: "view", topic: "template" and kind: "rendered"
 
     Examples:
       | channel      | topic    | kind      |

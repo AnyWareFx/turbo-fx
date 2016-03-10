@@ -5,17 +5,17 @@ Feature: Model Events Feature
 
 
   Scenario: Property Changed Event
-    Given I have a Person model
+    Given I have a Model
     And   I observe the "changed" event
-    When  I try to set the "firstName" property to "Dave"
+    When  I set the "firstName" property to "Dave"
     Then  I will receive the "changed" event
     And   the "firstName" property value will equal "Dave"
 
 
   Scenario: Property Change Cancelled
-    Given I have a Person model
+    Given I have a Model
     And   I observe the "changed" event
     And   I cancel the "changing" event
-    When  I try to set the "firstName" property to "Dave"
+    When  I set the "firstName" property to "Dave"
     Then  I will not receive the "changed" event
     And   the "firstName" property value will not equal "Dave"
