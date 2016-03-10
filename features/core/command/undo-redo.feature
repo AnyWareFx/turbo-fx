@@ -12,14 +12,14 @@ Feature: Undo/Redo Feature
 
   Scenario: Undo Changes
     Given I have a Model
-    When  I execute a command to set the "firstName" property to "Dave"
-    And   I undo the command
+    And   I execute a command to set the "firstName" property to "Dave"
+    When  I undo the command
     Then  the "firstName" property value will not equal "Dave"
 
 
   Scenario: Redo Changes
     Given I have a Model
-    When  I execute a command to set the "firstName" property to "Dave"
+    And   I execute a command to set the "firstName" property to "Dave"
     And   I undo the command
-    And   I redo the command
+    When  I redo the command
     Then  the "firstName" property value will equal "Dave"

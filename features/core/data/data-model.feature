@@ -11,8 +11,8 @@ Feature: DataModel Feature
 
 
   Scenario: Initialize with Strict Schema
-    When  I set the "strict" property to "true"
-    And   I initialize a DataModel with the Schema
+    And   I set the "strict" property to "true"
+    When  I initialize a DataModel with the Schema
     And   I add a "subject" property
     Then  the model will have the "email" property
     And   the model will have the "date" property
@@ -20,8 +20,8 @@ Feature: DataModel Feature
 
 
   Scenario: Initialize with non Strict Schema
-    When  I set the "strict" property to "false"
-    And   I initialize a DataModel with the Schema
+    And   I set the "strict" property to "false"
+    When  I initialize a DataModel with the Schema
     And   I add a "subject" property
     Then  the model will have the "subject" property
 
