@@ -18,7 +18,7 @@ class Model extends EventEmitter
 
 
   constructor: (properties = {}) ->
-    super()
+    super
     @properties = {}
     @set properties = _.defaults {}, properties, { locked: false, frozen: false }
     @observers =
