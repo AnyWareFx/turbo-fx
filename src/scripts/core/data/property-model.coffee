@@ -37,7 +37,7 @@ class PropertyModel extends Model
       name is 'dataType' and
         value in _.keys DataTypes
 
-    ) or super name, value
+    ) or super
 
 
   validate: (value) ->

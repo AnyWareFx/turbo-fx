@@ -10,6 +10,14 @@ class DataModel extends Model
     super
 
 
+  _valueAllowed: (name, value) ->
+    (
+      name is 'schema' and
+        value instanceof Schema
+
+    ) or super
+
+
   set: (name, value) ->
     if name is 'schema'
       unless @schema?
@@ -22,6 +30,12 @@ class DataModel extends Model
 
           @set 'locked', @schema.get 'strict'
       @
+
+    else if name is 'locked'
+      if @schema? and _.isBoolean value
+        @properties.locked = @schema.get('strict') or value
+      @
+
     else
       super
 
