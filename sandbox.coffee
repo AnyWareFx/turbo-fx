@@ -3,7 +3,7 @@ fs = require 'fs'
 
 
 { CommandContext, SetPropertyCommand } = require './src/scripts/core/command'
-{ DataModel, Schema }                  = require './src/scripts/core/data'
+{ DataModel, Schema, DataTypes }       = require './src/scripts/core/data'
 { Factory }                            = require './src/scripts/core/factory'
 { Model, Collection }                  = require './src/scripts/core/model'
 
@@ -11,7 +11,7 @@ fs = require 'fs'
 enableCommand = false
 enableData    = true
 enableFactory = false
-enableModel   = true
+enableModel   = false
 
 
 logEvent = (event) ->
@@ -42,11 +42,11 @@ if enableCommand
 
 if enableData
   PersonSchema = new Schema name: 'Person', strict: false
-    .property name: 'prefix',     dataType: 'STRING'
-    .property name: 'firstName',  dataType: 'STRING'
-    .property name: 'middleName', dataType: 'STRING'
-    .property name: 'lastName',   dataType: 'STRING'
-    .property name: 'suffix',     dataType: 'STRING'
+    .property name: 'prefix',     dataType: DataTypes.STRING
+    .property name: 'firstName',  dataType: DataTypes.STRING
+    .property name: 'middleName', dataType: DataTypes.STRING
+    .property name: 'lastName',   dataType: DataTypes.STRING
+    .property name: 'suffix',     dataType: DataTypes.STRING
 
   console.log PersonSchema
 
@@ -58,8 +58,8 @@ if enableData
 
 
   ContactSchema = new Schema name: 'Contact'
-    .property name: 'email', dataType: 'EMAIL'
-    .property name: 'date',  dataType: 'DATE'
+    .property name: 'email', dataType: DataTypes.EMAIL
+    .property name: 'date',  dataType: DataTypes.DATE
 
   contact = new DataModel
     schema: ContactSchema
