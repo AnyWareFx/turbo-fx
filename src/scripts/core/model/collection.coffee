@@ -23,8 +23,16 @@ class Collection extends EventEmitter
       changed:  []
 
 
+  _forward: (event) =>
+    @emit event
+
+
   add: (model) ->
-    if not model instanceof @ModelClass
+    if _.isArray model
+      _.each model, (entry) =>
+        @add entry
+
+    else if not (model instanceof @ModelClass)
       @add new @ModelClass model
 
     else if not _.contains @models, model
@@ -34,13 +42,36 @@ class Collection extends EventEmitter
 
       unless cancelled
         @models.push model
-        model.observe Model.Events.CHANGING, @forward
-        model.observe Model.Events.CHANGED,  @forward
+        model.observe Model.Events.CHANGING, @_forward
+        model.observe Model.Events.CHANGED,  @_forward
 
         @emit
           type: Collection.Events.ADDED
           model: model
     @
+
+
+  remove: (model) ->
+    index = _.indexOf @models, model
+    if index > -1
+      cancelled = @emit
+        type: Collection.Events.REMOVING
+        model: model
+
+      unless cancelled
+        model = @models.splice(index, 1)[0]
+        model.unobserve Model.Events.CHANGING, @_forward
+        model.unobserve Model.Events.CHANGED,  @_forward
+
+        @emit
+          type: Collection.Events.REMOVED
+          model: model
+    @
+
+
+  removeAll: ->
+    @each (model) =>
+      @remove model
 
 
   each: (iteratee) ->
@@ -148,33 +179,6 @@ class Collection extends EventEmitter
 
   toArray: ->
     _.toArray @models
-
-
-  remove: (model) ->
-    index = _.indexOf @models, model
-    if index > -1
-      cancelled = @emit
-        type: Collection.Events.REMOVING
-        model: model
-
-      unless cancelled
-        model = @models.splice(index, 1)[0]
-        model.unobserve Model.Events.CHANGING, @_forward
-        model.unobserve Model.Events.CHANGED,  @_forward
-
-        @emit
-          type: Collection.Events.REMOVED
-          model: model
-    @
-
-
-  removeAll: ->
-    @each (model) =>
-      @remove model
-
-
-  _forward: (event) =>
-    @emit event
 
 
 module.exports = Collection

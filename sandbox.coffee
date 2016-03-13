@@ -3,7 +3,7 @@ fs = require 'fs'
 
 
 { CommandContext, SetPropertyCommand } = require './src/scripts/core/command'
-{ DataModel, DataTypes, Schema }       = require './src/scripts/core/data'
+{ DataModel, Schema }                  = require './src/scripts/core/data'
 { Factory }                            = require './src/scripts/core/factory'
 { Model, Collection }                  = require './src/scripts/core/model'
 
@@ -11,7 +11,7 @@ fs = require 'fs'
 enableCommand = false
 enableData    = true
 enableFactory = false
-enableModel   = false
+enableModel   = true
 
 
 logEvent = (event) ->
@@ -41,21 +41,33 @@ if enableCommand
 ########################
 
 if enableData
-  schema = new Schema name: 'Person', strict: false
-    .property name: 'prefix',     dataType: DataTypes.STRING
-    .property name: 'firstName',  dataType: DataTypes.STRING
-    .property name: 'middleName', dataType: DataTypes.STRING
-    .property name: 'lastName',   dataType: DataTypes.STRING
-    .property name: 'suffix',     dataType: DataTypes.STRING
+  PersonSchema = new Schema name: 'Person', strict: false
+    .property name: 'prefix',     dataType: 'STRING'
+    .property name: 'firstName',  dataType: 'STRING'
+    .property name: 'middleName', dataType: 'STRING'
+    .property name: 'lastName',   dataType: 'STRING'
+    .property name: 'suffix',     dataType: 'STRING'
 
-  console.log schema
+  console.log PersonSchema
 
 
-  model = new DataModel schema: schema
-  model.set locked: true
-  model.set firstName: 'Dave', lastName:  'Jackson'
+  person = new DataModel schema: PersonSchema, firstName: 'Dave', lastName: 'Jackson', locked: true
+  person.set fullName: 'Dave Jackson'
 
-  console.log model
+  console.log person
+
+
+  ContactSchema = new Schema name: 'Contact'
+    .property name: 'email', dataType: 'EMAIL'
+    .property name: 'date',  dataType: 'DATE'
+
+  contact = new DataModel
+    schema: ContactSchema
+    email: 'dave.jackson'
+    date:  '7/32/15'
+
+  console.log contact.isValid()
+
 
 
 
@@ -89,10 +101,6 @@ if enableFactory
 ########################
 
 if enableModel
-  Rosemary = new Model firstName: 'Rosemary', lastName: 'Jackson'
-  Mariah = new Model firstName: 'Mariah', lastName: 'Seifert'
-  Manitou = new Model firstName: 'Manitou'
-
   console.log 'Model pick'
   console.log Dave.pick 'firstName'
   console.log '\n'
@@ -101,10 +109,20 @@ if enableModel
   people.observe 'added', logEvent
   people.observe 'removed', logEvent
   people.observe 'changed', logEvent
+
+  people.add [{
+    firstName: 'Rosemary'
+    lastName: 'Jackson'
+
+  }, {
+    firstName: 'Mariah'
+    lastName: 'Seifert'
+
+  }, {
+    firstName: 'Manitou'
+  }]
+
   people.add Dave
-  people.add Rosemary
-  people.add Mariah
-  people.add Manitou
 
   console.log 'Collection pluck'
   console.log people.pluck 'firstName'
@@ -126,11 +144,6 @@ if enableModel
   console.log people.findWhere lastName: 'Jackson'
   console.log '\n'
 
-  #Dave.observe 'changed', logEvent
-  #Dave.set 'firstName', 'David'
-  #Dave.unobserve 'changed', logEvent
-  #Dave.set 'firstName', 'Dave'
-  #Dave.observe 'changed', logEvent
-  #Dave.observe 'changing', cancelLastName
+  Dave.set 'firstName', 'David'
 
   people.remove Dave
