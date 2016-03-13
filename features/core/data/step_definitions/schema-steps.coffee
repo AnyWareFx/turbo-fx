@@ -17,7 +17,7 @@ module.exports = ->
 
 
   @Given 'I add a PropertyModel with name: "$name" and dataType: "$dataType"', (name, dataType) ->
-    @schema.propertyModels.add new PropertyModel name: name, dataType: dataType
+    @schema.property name: name, dataType: dataType
 
 
   @Then 'the JSON response is equal to $value', (value) ->

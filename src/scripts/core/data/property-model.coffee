@@ -1,16 +1,9 @@
-_         = require 'underscore'
-validator = require 'validator'
-moment    = require 'moment'
+_          = require 'underscore'
 
-DataTypes = require './data-types'
-{ Model } = require '../model'
+DataTypes  = require './data-types'
+Validators = require './validators'
+{ Model }  = require '../model'
 
-
-
-validators = _.extend {},
-  validator,
-  isDate: (date) ->
-    moment(date, 'MM/DD/YYYY').isValid() # FIXME
 
 
 defaults =
@@ -35,17 +28,17 @@ class PropertyModel extends Model
 
     ) or (
       name is 'dataType' and
-        value in _.keys DataTypes
+        value in _.values DataTypes
 
     ) or super
 
 
   validate: (value) ->
     message = ''
-    DataType = DataTypes[@get 'dataType']
+    validator = Validators[@get 'dataType']
 
-    if value? and not validators[DataType.validator](value)
-      message = DataType.errorMessage
+    if value? and not validator?.validate(value)
+      message = validator.errorMessage
 
     message
 
