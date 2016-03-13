@@ -45,6 +45,16 @@ class Model extends EventEmitter
         value != @properties[name]
     )
 
+  _setProperties: (properties) ->
+    properties = _.omit properties, _.functions properties
+    names = _.keys properties
+
+    setProperty = (name) ->
+      @set name, properties[name]
+
+    _.each names, setProperty, @
+    @
+
 
   get: (name) ->
     @properties[name]
@@ -52,15 +62,9 @@ class Model extends EventEmitter
 
   set: (name, value) ->
     if arguments.length == 1
-      object = name
+      @_setProperties arguments[0]
 
-      properties = _.omit object, _.functions object
-      names = _.keys properties
-
-      _.each names, (name) =>
-        @set name, properties[name]
-
-    else if @_nameAllowed(name) and @_valueAllowed(name, value)
+    else if @_nameAllowed(name) and @_valueAllowed name, value
       oldValue = @properties[name]
 
       cancelled = @emit
