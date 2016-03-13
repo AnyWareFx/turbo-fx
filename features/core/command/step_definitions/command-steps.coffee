@@ -1,15 +1,7 @@
-{ expect } = require 'chai'
-{ Model  } = require '../../../../src/scripts/core/model'
-
 { CommandContext, SetPropertyCommand } = require '../../../../src/scripts/core/command'
 
 
 module.exports = ->
-
-  @Given 'I have a Model', () ->
-    @model = new Model firstName: 'David', lastName: 'Jackson'
-    @model
-
 
   @When 'I execute a command to set the "$property" property to "$value"', (property, value) ->
     @context = new CommandContext()
@@ -22,7 +14,3 @@ module.exports = ->
 
   @When 'I redo the command', ->
     @context.redo()
-
-
-  @Then 'the "$property" property value will equal "$value"', (property, value) ->
-    expect(@model.get property).to.equal value
