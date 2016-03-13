@@ -15,14 +15,6 @@ module.exports = ->
       true
 
 
-  @Then 'the model will have the "$property" property', (property) ->
-    expect(@model.has property)
-
-
-  @Then 'the model will not have the "$property" property', (property) ->
-    expect(not @model.has property)
-
-
   @Then 'I will receive the "$type" event', (type) ->
     expect(@observed?.type).to.equal type
 

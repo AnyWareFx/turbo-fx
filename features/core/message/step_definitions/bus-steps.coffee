@@ -17,16 +17,6 @@ module.exports = ->
     @bus
 
 
-  @When 'I add a "$property" property', (property) ->
-    @model ?= @message or @schema
-    @model.set property, 'value'
-
-
-  @When 'I set the "$property" property to "$value"', (property, value) ->
-    @model ?= @message or @schema
-    @model.set property, value
-
-
   @When 'I subscribe to messages with channel: "$channel", topic: "$topic" and kind: "$kind"', (channel, topic, kind) ->
     @received.removeAll()
 
@@ -41,10 +31,6 @@ module.exports = ->
 
   @When 'I publish a message with channel: "$channel", topic: "$topic" and kind: "$kind"', (channel, topic, kind) ->
     @bus.publish new Message channel: channel, topic: topic, kind: kind
-
-
-  @Then 'the "$property" property value will not equal "$value"', (property, value) ->
-    expect(@model.get(property)).to.not.equal value
 
 
   @Then 'I will receive all bus messages', ->
