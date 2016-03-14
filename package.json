@@ -2,17 +2,20 @@
   "author": "Dave Jackson <dave.jackson@anywarefx.com>",
   "name": "turbo-fx",
   "version": "1.0.0",
-  "description": "Turbo-Fx: Isomorphic CoffeeScript Web Apps",
+  "description": "Turbo-Fx: Full-Stack Isomorphic CoffeeScript to Turbo Charge your Web Apps",
   "keywords": [
+    "Full-Stack",
+    "full-stack",
     "Isomorphic",
     "isomorphic",
     "CoffeeScript",
     "coffeescript",
-    "Bootstrap",
-    "bootstrap",
+    "Web",
     "web",
     "app",
-    "turbo-fx"
+    "App",
+    "turbo-fx",
+    "Turbo-Fx"
   ],
   "scripts": {
     "postinstall": "webpack",
@@ -28,7 +31,6 @@
     "coffee-script": "^1.9.2",
     "cucumber": "^0.4.9",
     "glob": "^5.0.10",
-    "moment": "^2.11.2",
     "validator": "^5.1.0",
     "webpack": "^1.9.10",
     "zombie": "^4.2.1"
