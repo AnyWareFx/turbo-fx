@@ -1,12 +1,11 @@
 _         = require 'underscore'
 
 validator = require 'validator'
-moment    = require 'moment'
 
 
-validators = _.extend validator,
+validators = _.extend {}, validator,
   isDate: (date) ->
-    moment(date, 'MM/DD/YYYY').isValid() # FIXME
+    not isNaN Date.parse date
 
 
 # TODO i18n.t '...'
