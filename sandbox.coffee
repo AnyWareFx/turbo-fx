@@ -85,7 +85,6 @@ if enableData
 if enableFactory
 
   fixture = JSON.parse fs.readFileSync 'features/fixtures/factory-fixture.json', 'utf8'
-
   models = { Schema, PropertyModel, DataModel, Collection }
 
   Factory.initialize classes: models, templates: fixture

@@ -9,7 +9,7 @@
     },
     "details": [{
       "propertyName": "propertyModels",
-      "ClassName": "Collection",
+      "DetailClassName": "Collection",
       "ItemClassName": "PropertyModel",
       "items": [{
         "properties": {
@@ -44,7 +44,7 @@
     },
     "details": [{
       "propertyName": "propertyModels",
-      "ClassName": "Collection",
+      "DetailClassName": "Collection",
       "ItemClassName": "PropertyModel",
       "items": [{
         "properties": {
