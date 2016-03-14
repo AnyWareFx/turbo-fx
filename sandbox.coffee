@@ -2,15 +2,15 @@ _  = require 'underscore'
 fs = require 'fs'
 
 
-{ CommandContext, SetPropertyCommand } = require './src/scripts/core/command'
-{ DataModel, Schema, DataTypes }       = require './src/scripts/core/data'
-{ Factory }                            = require './src/scripts/core/factory'
-{ Model, Collection }                  = require './src/scripts/core/model'
+{ CommandContext, SetPropertyCommand          } = require './src/scripts/core/command'
+{ DataModel, Schema, PropertyModel, DataTypes } = require './src/scripts/core/data'
+{ Factory                                     } = require './src/scripts/core/factory'
+{ Model, Collection                           } = require './src/scripts/core/model'
 
 
 enableCommand = false
-enableData    = true
-enableFactory = false
+enableData    = false
+enableFactory = true
 enableModel   = false
 
 
@@ -61,6 +61,15 @@ if enableData
     .property name: 'email', dataType: DataTypes.EMAIL
     .property name: 'date',  dataType: DataTypes.DATE
 
+
+#  ContactSchema = new Schema name: 'Contact'
+#  propertyModels = new Collection ModelClass: PropertyModel
+#  propertyModels.add new PropertyModel name: 'email', dataType: DataTypes.EMAIL
+#  propertyModels.add new PropertyModel name: 'date',  dataType: DataTypes.DATE
+
+#  ContactSchema.set propertyModels: propertyModels
+
+
   contact = new DataModel
     schema: ContactSchema
     email: 'dave.jackson'
@@ -74,28 +83,18 @@ if enableData
 ########################
 
 if enableFactory
-  models  = require './features/support/example-models'
 
   fixture = JSON.parse fs.readFileSync 'features/fixtures/factory-fixture.json', 'utf8'
 
+  models = { Schema, PropertyModel, DataModel, Collection }
+
   Factory.initialize classes: models, templates: fixture
 
+  schema = Factory.get 'PersonSchema'
+  console.log schema
 
-  home = Factory.get 'HomeAddress'
-  console.log home.address1
-  console.log '\n'
-
-  dave = Factory.get 'Dave'
-  console.log dave.get 'firstName'
-  console.log '\n'
-  console.log _.findWhere dave.get 'contactPoints', { type: 'home' }
-  console.log '\n'
-  console.log _.findWhere dave.get 'contactPoints', { type: 'work' }
-  console.log '\n'
-
-  employee = Factory.get 'EmployeeDave'
-  console.log employee.get 'startDate'
-
+  person = Factory.get 'Dave'
+  console.log person
 
 
 ########################

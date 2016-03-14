@@ -97,14 +97,23 @@ class Delegate
 
   setDetailProperty: (component, property) ->
     if property.ClassName?
-      details = []
+
       DetailClass = @classes[property.ClassName]
+      ItemClass = @classes[property.ItemClassName]
+      details = new DetailClass()
+      details.ModelClass = ItemClass if details.ModelClass?
 
       for template in property.items
-        detail = new DetailClass()
-        @injectDependencies detail, template
-        @setProperties detail, template
-        details.push detail
+        item = new ItemClass()
+
+        @injectDependencies item, template
+        @setProperties item, template
+
+        if details.push?
+          details.push item
+
+        else if details.add?
+          details.add item
 
       @setProperty component, property.propertyName, details
 
