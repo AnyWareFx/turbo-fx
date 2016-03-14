@@ -9,6 +9,29 @@ class Schema extends Model
     @propertyModels = new Collection ModelClass: PropertyModel
 
 
+  _valueAllowed: (name, value) ->
+    (
+      name is 'propertyModels' and
+        value instanceof Collection and
+        value.ModelClass is PropertyModel
+
+    ) or super
+
+
+  set: (name, value) ->
+    if name is 'propertyModels' and value instanceof Collection and value.ModelClass is PropertyModel
+      value.each (propertyModel) =>
+        @propertyModels.add propertyModel
+      @
+
+    else
+      super
+
+
+  property: (attributes) ->
+    @propertyModels.add new PropertyModel attributes
+    @
+
 
   validate: (properties = {}) ->
     validationErrors = {}
@@ -20,11 +43,6 @@ class Schema extends Model
         validationErrors[name] = message if not _.isEmpty message
 
     validationErrors
-
-
-  property: (attributes) ->
-    @propertyModels.add new PropertyModel attributes
-    @
 
 
 

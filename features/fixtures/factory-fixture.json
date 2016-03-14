@@ -1,63 +1,57 @@
 [
   {
-    "componentName": "Dave",
-    "ClassName": "Person",
+    "componentName": "PersonSchema",
+    "ClassName": "Schema",
+    "singleton": true,
     "properties": {
-      "firstName": "Dave",
-      "lastName": "Jackson"
+      "name": "PersonSchema",
+      "strict": false
     },
     "details": [{
-      "propertyName": "contactPoints",
-      "ClassName": "ContactPoint",
+      "propertyName": "propertyModels",
+      "DetailClassName": "Collection",
+      "ItemClassName": "PropertyModel",
       "items": [{
-        "ClassName": "ContactPoint",
-        "dependencies": [{
-          "propertyName": "address",
-          "reference": "HomeAddress"
-        }],
         "properties": {
-          "type": "home",
-          "email": "dave.jackson@ymail.com",
-          "phone": "913.605.3636"
+          "name": "firstName",
+          "dataType": "STRING"
         }
       }, {
-        "ClassName": "ContactPoint",
-        "dependencies": [{
-          "propertyName": "address",
-          "reference": "WorkAddress"
-        }],
         "properties": {
-          "type": "work",
-          "email": "djackson@adparlor.com",
-          "phone": "816.555.1212"
+          "name": "lastName",
+          "dataType": "STRING"
         }
       }]
     }]
   }, {
-    "componentName": "HomeAddress",
-    "ClassName": "Address",
+    "componentName": "Dave",
+    "ClassName": "DataModel",
+    "dependencies": [{
+      "propertyName": "schema",
+      "reference": "PersonSchema"
+    }],
     "properties": {
-      "address1": "131 Allcutt Ave",
-      "city": "Bonner Springs",
-      "state": "KS",
-      "zip": "66012"
+      "firstName": "Dave",
+      "lastName": "Jackson"
     }
   }, {
-    "componentName": "WorkAddress",
-    "ClassName": "Address",
-    "properties": {
-      "address1": "4600 Madison Ave",
-      "city": "Kansas City",
-      "state": "MO",
-      "zip": "64112"
-    }
-  }, {
-    "componentName": "EmployeeDave",
-    "ClassName": "Employee",
-    "extend": "Dave",
+    "componentName": "EmployeeSchema",
+    "ClassName": "Schema",
     "singleton": true,
+    "extensions": ["PersonSchema"],
     "properties": {
-      "startDate": "October 24th, 2015"
-    }
+      "name": "EmployeeSchema"
+    },
+    "details": [{
+      "propertyName": "propertyModels",
+      "DetailClassName": "Collection",
+      "ItemClassName": "PropertyModel",
+      "items": [{
+        "properties": {
+          "name": "email",
+          "dataType": "EMAIL"
+        }
+      }]
+    }]
   }
 ]
