@@ -2,15 +2,16 @@ _  = require 'underscore'
 fs = require 'fs'
 
 
-{ CommandContext, SetPropertyCommand          } = require './src/scripts/core/command'
-{ DataModel, Schema, PropertyModel, DataTypes } = require './src/scripts/core/data'
 { Factory                                     } = require './src/scripts/core/factory'
 { Model, Collection                           } = require './src/scripts/core/model'
+{ CommandContext, SetPropertyCommand          } = require './src/scripts/core/command'
+{ DataModel, Schema, PropertyModel, DataTypes } = require './src/scripts/core/data'
+PouchDBDataSource                               = require './src/scripts/core/data/adapters/pouch-data-source'
 
 
 enableCommand = false
-enableData    = false
-enableFactory = true
+enableData    = true
+enableFactory = false
 enableModel   = false
 
 
@@ -43,9 +44,9 @@ if enableCommand
 if enableData
   PersonSchema = new Schema name: 'Person', strict: false
     .property name: 'prefix',     dataType: DataTypes.STRING
-    .property name: 'firstName',  dataType: DataTypes.STRING
+    .property name: 'firstName',  dataType: DataTypes.STRING, indexed: true
     .property name: 'middleName', dataType: DataTypes.STRING
-    .property name: 'lastName',   dataType: DataTypes.STRING
+    .property name: 'lastName',   dataType: DataTypes.STRING, indexed: true
     .property name: 'suffix',     dataType: DataTypes.STRING
 
   console.log PersonSchema
@@ -57,9 +58,37 @@ if enableData
   console.log person
 
 
-  ContactSchema = new Schema name: 'Contact'
-    .property name: 'email', dataType: DataTypes.EMAIL
-    .property name: 'date',  dataType: DataTypes.DATE
+  pouch = new PouchDBDataSource()
+  pouch.set schema: PersonSchema
+  pouch.connect 'people'
+  .then ->
+    pouch.insert person.properties
+
+  .then (saved) ->
+    console.log saved
+    person.set _id: saved._id
+
+  .catch (error) ->
+    console.log  error
+
+
+  person.set firstName: 'David'
+
+
+  pouch.update person.properties
+  .then ->
+    pouch.query selector: firstName: 'David'
+
+  .then (found) ->
+    console.log  found
+
+  .catch (error) ->
+    console.log  error
+
+
+#  ContactSchema = new Schema name: 'Contact'
+#    .property name: 'email', dataType: DataTypes.EMAIL
+#    .property name: 'date',  dataType: DataTypes.DATE
 
 
 #  ContactSchema = new Schema name: 'Contact'
@@ -70,12 +99,12 @@ if enableData
 #  ContactSchema.set propertyModels: propertyModels
 
 
-  contact = new DataModel
-    schema: ContactSchema
-    email: 'dave.jackson'
-    date:  '7/32/15'
+#  contact = new DataModel
+#    schema: ContactSchema
+#    email: 'dave.jackson'
+#    date:  '7/32/15'
 
-  console.log contact.isValid()
+#  console.log contact.isValid()
 
 
 

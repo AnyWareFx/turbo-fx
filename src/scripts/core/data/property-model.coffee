@@ -5,12 +5,12 @@ Validators = require './validators'
 { Model }  = require '../model'
 
 
-
 defaults =
   name: ''
   dataType: ''
-  required: false
   defaultValue: null
+  required: false
+  indexed: false
 
 
 
@@ -23,7 +23,7 @@ class PropertyModel extends Model
 
   _valueAllowed: (name, value) ->
     (
-      name is 'required' and
+      name in ['required', 'indexed'] and
         _.isBoolean value
 
     ) or (
