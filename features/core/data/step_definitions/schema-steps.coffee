@@ -20,5 +20,9 @@ module.exports = ->
     @schema.property name: name, dataType: dataType
 
 
+  @Given 'I add an indexed PropertyModel with name: "$name" and dataType: "$dataType"', (name, dataType) ->
+    @schema.property name: name, dataType: dataType, indexed: true
+
+
   @Then 'the JSON response is equal to $value', (value) ->
     expect(_.isEqual @response, responses[value])

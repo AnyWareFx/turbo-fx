@@ -43,6 +43,9 @@ if enableCommand
 
 if enableData
   PersonSchema = new Schema name: 'Person', strict: false
+    .property name: '_id',        dataType: DataTypes.STRING
+    .property name: '_rev',       dataType: DataTypes.STRING
+    .property name: 'type',       dataType: DataTypes.STRING, indexed: true
     .property name: 'prefix',     dataType: DataTypes.STRING
     .property name: 'firstName',  dataType: DataTypes.STRING, indexed: true
     .property name: 'middleName', dataType: DataTypes.STRING
@@ -50,40 +53,94 @@ if enableData
     .property name: 'suffix',     dataType: DataTypes.STRING
 
   console.log PersonSchema
+  console.log '\n'
 
 
-  person = new DataModel schema: PersonSchema, firstName: 'Dave', lastName: 'Jackson', locked: true
+  person = new DataModel schema: PersonSchema, type: 'person', firstName: 'Dave', lastName: 'Jackson', locked: true
   person.set fullName: 'Dave Jackson'
 
   console.log person
+  console.log '\n'
 
 
   pouch = new PouchDBDataSource()
-  pouch.set schema: PersonSchema
-  pouch.connect 'people'
+
+
+  id = null
+
+  PouchDBDataSource.migrate config: 'people', schema: PersonSchema
+
+  .then (result) ->
+    console.log 'migrated:\n'
+    console.log result
+    console.log '\n'
+
+    pouch.connect 'people'
+
   .then ->
     pouch.insert person.properties
 
-  .then (saved) ->
-    console.log saved
-    person.set _id: saved._id
+  .then (inserted) ->
+    console.log 'inserted:\n'
+    console.log inserted
+    console.log '\n'
 
-  .catch (error) ->
-    console.log  error
+    id = inserted._id
 
+    person.set firstName: 'David', _rev: inserted._rev
+    pouch.update person.properties
 
-  person.set firstName: 'David'
+  .then (updated) ->
+    console.log 'updated:\n'
+    console.log updated
+    console.log '\n'
 
-
-  pouch.update person.properties
-  .then ->
-    pouch.query selector: firstName: 'David'
+    pouch.query
+      selector:
+        firstName: 'David'
+      fields: [
+        '_id',
+        '_rev',
+        'firstName',
+        'lastName'
+      ]
 
   .then (found) ->
-    console.log  found
+    console.log 'found:\n'
+
+    _.each found.docs, (doc) ->
+      console.log 'row:\n'
+      console.log doc
+      console.log '\n'
+
+    pouch.lookup id
+
+  .then (found) ->
+    console.log 'lookup:\n'
+    console.log found
+    console.log '\n'
+
+    pouch.destroy id
+
+  .then (destroyed) ->
+    console.log 'destroyed:\n'
+    console.log destroyed
+    console.log '\n'
+
+    pouch.query()
+
+  .then (found) ->
+    console.log 'found:\n'
+
+    _.each found.rows, (row) ->
+      console.log 'row:\n'
+      console.log row.doc
+      console.log '\n'
 
   .catch (error) ->
-    console.log  error
+    console.log 'error:\n'
+    console.log error
+    console.log '\n'
 
 
 #  ContactSchema = new Schema name: 'Contact'
