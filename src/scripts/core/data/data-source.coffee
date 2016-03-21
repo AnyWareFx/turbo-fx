@@ -1,5 +1,7 @@
 class DataSource
 
+  @migrate: (params = {}) ->
+
   connect: (config) ->
 
   disconnect: ->
