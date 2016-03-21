@@ -2,15 +2,16 @@ _  = require 'underscore'
 fs = require 'fs'
 
 
-{ CommandContext, SetPropertyCommand          } = require './src/scripts/core/command'
-{ DataModel, Schema, PropertyModel, DataTypes } = require './src/scripts/core/data'
 { Factory                                     } = require './src/scripts/core/factory'
 { Model, Collection                           } = require './src/scripts/core/model'
+{ CommandContext, SetPropertyCommand          } = require './src/scripts/core/command'
+{ DataModel, Schema, PropertyModel, DataTypes } = require './src/scripts/core/data'
+PouchDBDataSource                               = require './src/scripts/core/data/adapters/pouch-data-source'
 
 
 enableCommand = false
-enableData    = false
-enableFactory = true
+enableData    = true
+enableFactory = false
 enableModel   = false
 
 
@@ -42,24 +43,109 @@ if enableCommand
 
 if enableData
   PersonSchema = new Schema name: 'Person', strict: false
+    .property name: '_id',        dataType: DataTypes.STRING
+    .property name: '_rev',       dataType: DataTypes.STRING
+    .property name: 'type',       dataType: DataTypes.STRING, indexed: true
     .property name: 'prefix',     dataType: DataTypes.STRING
-    .property name: 'firstName',  dataType: DataTypes.STRING
+    .property name: 'firstName',  dataType: DataTypes.STRING, indexed: true
     .property name: 'middleName', dataType: DataTypes.STRING
-    .property name: 'lastName',   dataType: DataTypes.STRING
+    .property name: 'lastName',   dataType: DataTypes.STRING, indexed: true
     .property name: 'suffix',     dataType: DataTypes.STRING
 
   console.log PersonSchema
+  console.log '\n'
 
 
-  person = new DataModel schema: PersonSchema, firstName: 'Dave', lastName: 'Jackson', locked: true
+  person = new DataModel schema: PersonSchema, type: 'person', firstName: 'Dave', lastName: 'Jackson', locked: true
   person.set fullName: 'Dave Jackson'
 
   console.log person
+  console.log '\n'
 
 
-  ContactSchema = new Schema name: 'Contact'
-    .property name: 'email', dataType: DataTypes.EMAIL
-    .property name: 'date',  dataType: DataTypes.DATE
+  pouch = new PouchDBDataSource()
+
+
+  id = null
+
+  PouchDBDataSource.migrate config: 'people', schema: PersonSchema
+
+  .then (result) ->
+    console.log 'migrated:\n'
+    console.log result
+    console.log '\n'
+
+    pouch.connect 'people'
+
+  .then ->
+    pouch.insert person.properties
+
+  .then (inserted) ->
+    console.log 'inserted:\n'
+    console.log inserted
+    console.log '\n'
+
+    id = inserted._id
+
+    person.set firstName: 'David', _rev: inserted._rev
+    pouch.update person.properties
+
+  .then (updated) ->
+    console.log 'updated:\n'
+    console.log updated
+    console.log '\n'
+
+    pouch.query
+      selector:
+        firstName: 'David'
+      fields: [
+        '_id',
+        '_rev',
+        'firstName',
+        'lastName'
+      ]
+
+  .then (found) ->
+    console.log 'found:\n'
+
+    _.each found.docs, (doc) ->
+      console.log 'row:\n'
+      console.log doc
+      console.log '\n'
+
+    pouch.lookup id
+
+  .then (found) ->
+    console.log 'lookup:\n'
+    console.log found
+    console.log '\n'
+
+    pouch.destroy id
+
+  .then (destroyed) ->
+    console.log 'destroyed:\n'
+    console.log destroyed
+    console.log '\n'
+
+    pouch.query()
+
+  .then (found) ->
+    console.log 'found:\n'
+
+    _.each found.rows, (row) ->
+      console.log 'row:\n'
+      console.log row.doc
+      console.log '\n'
+
+  .catch (error) ->
+    console.log 'error:\n'
+    console.log error
+    console.log '\n'
+
+
+#  ContactSchema = new Schema name: 'Contact'
+#    .property name: 'email', dataType: DataTypes.EMAIL
+#    .property name: 'date',  dataType: DataTypes.DATE
 
 
 #  ContactSchema = new Schema name: 'Contact'
@@ -70,12 +156,12 @@ if enableData
 #  ContactSchema.set propertyModels: propertyModels
 
 
-  contact = new DataModel
-    schema: ContactSchema
-    email: 'dave.jackson'
-    date:  '7/32/15'
+#  contact = new DataModel
+#    schema: ContactSchema
+#    email: 'dave.jackson'
+#    date:  '7/32/15'
 
-  console.log contact.isValid()
+#  console.log contact.isValid()
 
 
 
