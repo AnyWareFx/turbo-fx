@@ -29,7 +29,8 @@ class Schema extends Model
 
 
   property: (attributes) ->
-    @propertyModels.add new PropertyModel attributes
+    { name, dataType } = attributes
+    @propertyModels.add new PropertyModel attributes if name? and dataType?
     @
 
 

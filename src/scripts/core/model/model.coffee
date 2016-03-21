@@ -67,20 +67,21 @@ class Model extends EventEmitter
     else if @_nameAllowed(name) and @_valueAllowed name, value
       oldValue = @properties[name]
 
-      cancelled = @emit
-        type: Model.Events.CHANGING
-        name: name
-        oldValue: oldValue
-        newValue: value
-
-      unless cancelled
-        @properties[name] = value
-
-        @emit
-          type: Model.Events.CHANGED
+      unless value is oldValue
+        cancelled = @emit
+          type: Model.Events.CHANGING
           name: name
           oldValue: oldValue
           newValue: value
+
+        unless cancelled
+          @properties[name] = value
+
+          @emit
+            type: Model.Events.CHANGED
+            name: name
+            oldValue: oldValue
+            newValue: value
     @
 
 
