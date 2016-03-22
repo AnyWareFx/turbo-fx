@@ -2,6 +2,13 @@
 PouchDBDataSource = require '../../../../src/scripts/core/data/adapters/pouch-data-source'
 
 
+id      = null
+oldRev  = null
+newRev  = null
+object  = null
+results = null
+
+
 module.exports = ->
 
   @Given 'I have a DataSource', ->
@@ -18,50 +25,64 @@ module.exports = ->
 
 
   @When 'I insert an object', ->
-    @oldRev = null
+    oldRev = null
     @pouch.insert firstName: 'Dave', lastName: 'Jackson'
 
-    .then (object) =>
-      @object = object
-      @newRev = object._rev
+    .then (inserted) ->
+      id = inserted._id
+      object = inserted
+      newRev = inserted._rev
 
 
-#  @When 'I lookup an object', ->
-#    @pouch.lookup @object._id
+  @When 'I lookup an object', ->
+    oldRev = null
+    @pouch.lookup id
 
 
   @When 'I update an object', ->
-    console.log 'update'
-    console.log @object
+    oldRev = object._rev
+    object.firstName = 'David'
 
-    @oldRev = @object._rev
-    @object.firstName = 'David'
+    @pouch.update object
 
-    @pouch.update @object
-
-    .then (object) =>
-      @object = object
-      @newRev = object._rev
+    .then (updated) ->
+      id = updated._id
+      object = updated
+      newRev = updated._rev
 
 
-#  @When 'I query an object', ->
-#    @pouch.lookup @object._id
+  @When 'I query the DataSource', ->
+    @pouch.query
+      selector:
+        firstName: 'David'
+      fields: [
+        '_id',
+        '_rev',
+        'firstName',
+        'lastName'
+      ]
+
+    .then (queried) ->
+      results = queried
 
 
-#  @When 'I destroy an object', ->
-#    console.log 'destroy'
-#    console.log @object
+  @When 'I destroy an object', ->
+    oldRev = object._rev
+    @pouch.destroy object._id
 
-#    @oldRev = @object._rev
-#    @pouch.destroy @object._id
+    .then (destroyed) ->
+      id = destroyed._id
+      object = destroyed
+      newRev = destroyed._rev
 
-#    .then (object) =>
-#      @object = object
-#      @newRev = object._rev
+
+  @Then 'I receive the result set', ->
+    expect results?
 
 
   @Then 'the object will have a new revision', ->
-    console.log @object
-    console.log @oldRev
-    console.log @newRev
-    expect @oldRev is not @newRev
+#    console.log id
+#    console.log object
+#    console.log oldRev
+#    console.log newRev
+    expect oldRev is not newRev

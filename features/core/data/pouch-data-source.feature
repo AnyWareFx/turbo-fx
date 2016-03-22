@@ -18,9 +18,10 @@ Feature: PouchDBDataSource Feature
     Then  the object will have a new revision
 
 
-#  Scenario: Lookup JavaScript Object
-#    When  I lookup an Object
-#    Then  I receive the Object
+# NOTE - resetting rev = null, so 'new revision' indicates object was found
+  Scenario: Lookup JavaScript Object
+    When  I lookup an object
+    Then  the object will have a new revision
 
 
   Scenario: Update JavaScript Object
@@ -28,11 +29,11 @@ Feature: PouchDBDataSource Feature
     Then  the object will have a new revision
 
 
-#  Scenario: Query JavaScript Object
-#    When  I query the DataSource
-#    Then  I receive the result set
+  Scenario: Query JavaScript Object
+    When  I query the DataSource
+    Then  I receive the result set
 
 
-#  Scenario: Destroy JavaScript Object
-#    When  I destroy an object
-#    Then  the object will have a new revision
+  Scenario: Destroy JavaScript Object
+    When  I destroy an object
+    Then  the object will have a new revision
