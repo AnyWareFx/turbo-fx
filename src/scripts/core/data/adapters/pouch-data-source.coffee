@@ -21,18 +21,20 @@ class PouchDBDataSource extends DataSource
 
     if config? and schema? and schema instanceof Schema
       db = new DB config
-      count = 1
+      created = []
       db.createIndex index: fields: ['type']
 
       .then ->
         indexes = schema.propertyModels.where indexed: true
 
         Promise.all _.each indexes, (index) =>
-          count++
+          created.push index.get 'name'
           db.createIndex index: fields: [index.get 'name']
 
         .then ->
-          Promise.resolve { message: count + ' indexes created' }
+          Promise.resolve
+            message: created.length + ' indexes created'
+            indexes: created
 
       .catch (error) ->
         Promise.reject error: error
