@@ -13,7 +13,11 @@ class Collection extends EventEmitter
 
   constructor: (params = {}) ->
     super params
-    {@models, @ModelClass} = _.defaults params, {models: [], ModelClass: Model}
+
+    { models, @ModelClass } = _.defaults params, { models: [], ModelClass: Model }
+    @models = []
+    @add models
+
     @observers =
       adding:   []
       added:    []
@@ -35,7 +39,7 @@ class Collection extends EventEmitter
     else if not (model instanceof @ModelClass)
       @add new @ModelClass model
 
-    else if not _.contains @models, model
+    else if not @contains model
       cancelled = @emit
         type: Collection.Events.ADDING
         model: model
