@@ -19,13 +19,13 @@ class Schema extends Model
 
 
   set: (name, value) ->
-    if name is 'propertyModels' and value instanceof Collection and value.ModelClass is PropertyModel
+    if arguments.length == 1
+      super
+
+    else if name is 'propertyModels' and @_valueAllowed name, value
       value.each (propertyModel) =>
         @propertyModels.add propertyModel
-      @
-
-    else
-      super
+    @
 
 
   property: (attributes) ->

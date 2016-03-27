@@ -19,25 +19,22 @@ class DataModel extends Model
 
 
   set: (name, value) ->
-    if name is 'schema'
-      unless @schema?
-        if value instanceof Schema
-          @properties = {}
-          @schema = value
-
-          @schema.propertyModels.each (property) =>
-            @properties[property.get 'name'] = property.get 'defaultValue'
-
-          @set 'locked', @schema.get 'strict'
-      @
-
-    else if name is 'locked'
-      if @schema? and _.isBoolean value
-        @properties.locked = @schema.get('strict') or value
-      @
-
-    else
+    if arguments.length == 1
       super
+
+    else if @_nameAllowed(name) and @_valueAllowed(name, value)
+      if name is 'schema' and not @schema?
+        @properties = {}
+        @schema = value
+
+        @schema.propertyModels.each (property) =>
+          @properties[property.get 'name'] = property.get 'defaultValue'
+
+        @set 'locked', @schema.get 'strict'
+
+      else if name is 'locked'
+        @properties.locked = @schema?.get('strict') or value
+    @
 
 
   validate: ->
