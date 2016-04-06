@@ -1,0 +1,31 @@
+{
+  "config": "people",
+
+  "schema": "PersonSchema",
+
+  "bulkInsert": [{
+    "firstName": "Dave",
+    "lastName": "Jackson"
+
+  }, {
+    "firstName": "Rosemary",
+    "lastName": "Jackson"
+
+  }, {
+    "firstName": "Mariah",
+    "lastName": "Seifert"
+
+  }, {
+    "firstName": "Davey",
+    "lastName": "Jackson"
+
+  }, {
+    "firstName": "Emily",
+    "lastName": "Jackson"
+
+  }, {
+    "firstName": "Noah",
+    "lastName": "Jackson"
+
+  }]
+}

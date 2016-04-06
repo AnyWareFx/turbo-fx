@@ -41,7 +41,23 @@ if enableCommand
 
 ########################
 
-if enableData
+if enableFactory
+
+  fixture = JSON.parse fs.readFileSync 'features/fixtures/factory-fixture.json', 'utf8'
+  models = { Schema, PropertyModel, DataModel, Collection }
+
+  Factory.initialize classes: models, templates: fixture
+
+  schema = Factory.get 'PersonSchema'
+  console.log schema
+
+  person = Factory.get 'Dave'
+  console.log person
+
+
+########################
+
+if enableData # and enableFactory
   PersonSchema = new Schema name: 'Person', strict: false
     .property name: '_id',        dataType: DataTypes.STRING
     .property name: '_rev',       dataType: DataTypes.STRING
@@ -164,22 +180,6 @@ if enableData
 #  console.log contact.isValid()
 
 
-
-
-########################
-
-if enableFactory
-
-  fixture = JSON.parse fs.readFileSync 'features/fixtures/factory-fixture.json', 'utf8'
-  models = { Schema, PropertyModel, DataModel, Collection }
-
-  Factory.initialize classes: models, templates: fixture
-
-  schema = Factory.get 'PersonSchema'
-  console.log schema
-
-  person = Factory.get 'Dave'
-  console.log person
 
 
 ########################

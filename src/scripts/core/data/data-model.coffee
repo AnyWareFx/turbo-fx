@@ -3,6 +3,7 @@ Schema    = require './schema'
 { Model } = require '../model'
 
 
+
 class DataModel extends Model
   constructor: (properties = {}) ->
     @validationErrors = {}
@@ -16,6 +17,10 @@ class DataModel extends Model
         value instanceof Schema
 
     ) or super
+
+
+#  get: (name) ->
+
 
 
   set: (name, value) ->
