@@ -11,7 +11,7 @@ module.exports = ->
     @message
 
 
-  @Given 'I have a Message Bus', ->
+  @Given 'I have a Message Queue', ->
     @received = new Collection ModelClass: Message
     @bus = new Bus
     @bus

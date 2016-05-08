@@ -83,7 +83,7 @@ class Channel
         topic.receive message
 
 
-class Bus
+class Queue
   constructor: ->
     @subscriptions = []
     @channels = {}
@@ -112,4 +112,4 @@ class Bus
       channel.receive message
 
 
-module.exports = Bus
+module.exports = Queue

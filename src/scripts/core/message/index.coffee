@@ -1,5 +1,5 @@
 Message = require './message'
-Bus     = require './bus'
+Queue   = require './queue'
 
 
-module.exports = { Message, Bus }
+module.exports = { Message, Queue }
